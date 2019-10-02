@@ -10,23 +10,22 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Department")
+@Getter @Setter
 @NoArgsConstructor
 public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter @Setter
     private long id;
 
     @Column
-    @Getter @Setter
     private String name;
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @Getter @Setter
     private Set<Employee> employees = new HashSet<>();
 
-    @Getter @Setter
+    @OneToOne
+    @JoinColumn
     private DepartmentBonus departmentBonus;
 
 }

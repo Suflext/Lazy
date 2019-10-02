@@ -8,23 +8,20 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "SystemProperties")
+@Getter @Setter
 @NoArgsConstructor
 public class SystemProperties {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter @Setter
     private Long id;
 
     @Column
-    @Getter @Setter
     private String keys;
 
     @Column
-    @Getter @Setter
     private String val;
 
     @Column
-    @Getter @Setter
     private String description;
 }

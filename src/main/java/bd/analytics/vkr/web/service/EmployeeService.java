@@ -1,6 +1,7 @@
 package bd.analytics.vkr.web.service;
 
 import bd.analytics.vkr.web.entity.Employee;
+import bd.analytics.vkr.web.entity.WorkLogAnalytics;
 import bd.analytics.vkr.web.repository.DepartmentRepository;
 import bd.analytics.vkr.web.repository.EmployeeRepository;
 import bd.analytics.vkr.web.repository.PositionRepository;
@@ -29,6 +30,7 @@ public class EmployeeService {
         employee.setPassword("us");
         employee.setDepartment(departmentRepo.findById(1L));
         employee.setJobPosition(positionRepo.findById(1L));
+        employee.setId(1);
         employeeRepo.save(employee);
     }
 

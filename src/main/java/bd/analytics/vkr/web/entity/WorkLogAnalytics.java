@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "WorkLogAnalytics")
+@Getter @Setter
 @NoArgsConstructor
 public class WorkLogAnalytics {
 
@@ -15,23 +16,19 @@ public class WorkLogAnalytics {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter @Setter
     private long id;
 
-    @OneToOne(mappedBy = "workLogAnalytics", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @Getter @Setter
+    @ManyToOne
+    @JoinColumn
     private Employee employee;
 
     @Column
-    @Getter @Setter
     private String dates;
 
     @Column
-    @Getter @Setter
     private String duration;
 
     @Column
-    @Getter @Setter
     private types type;
 
 }

@@ -10,7 +10,7 @@ public class EmployeePrincipal implements UserDetails {
 
     private Employee employee;
 
-    public EmployeePrincipal(Employee employee) {
+    EmployeePrincipal(Employee employee) {
         this.employee = employee;
     }
 

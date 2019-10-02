@@ -5,47 +5,47 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Employee")
+@Getter @Setter
 @NoArgsConstructor
 public class Employee {
 
-    @Getter @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Getter @Setter
     @Column
     private String role;
 
-    @Getter @Setter
     @Column
     private String login;
 
-    @Getter @Setter
     @Column
     private String password;
 
-    @Getter @Setter
     @Column
     private String firstName;
 
-    @Getter @Setter
     @Column
     private String lastName;
 
-    @Getter @Setter
+    @ManyToOne
+    @JoinColumn
     private Department department;
 
-    @Getter @Setter
+    @ManyToOne
+    @JoinColumn
     private JobPosition jobPosition;
 
-    @Getter @Setter
-    private WorkLog workLogs;
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set <WorkLog> workLogs = new HashSet<>();
 
-    @Getter @Setter
-    private WorkLogAnalytics workLogAnalytics;
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set <WorkLogAnalytics> workLogAnalytics = new HashSet<>();
 
 }
