@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table border="1">
+    <tr>
+        <th>Employee</th>
+    </tr>
+    <tr>
+        <th> firstName</th>
+        <th> lastName</th>
+        <th> login</th>
+        <th> password</th>
+        <th> positions</th>
+        <th> department</th>
+    </tr>
+    <tr th:each="employee : ${employees}">
+        <td th:utext="${employee.firstName}"></td>
+        <td th:utext="${employee.lastName}"></td>
+        <td th:utext="${employee.login}"></td>
+        <td th:utext="${employee.password}"></td>
+        <td th:utext="${employee.positions}"></td>
+        <td th:utext="${employee.department.name}"></td>
+    </tr>
+</table>
+
+<br>
+
+<table border="1">
+    <tr>
+        <th>Positions</th>
+    </tr>
+    <tr>
+        <th> id</th>
+        <th> salory</th>
+    </tr>
+    <tr th:each="positions : ${positions}">
+        <td th:utext="${positions.id}"></td>
+        <td th:utext="${positions.salory}"></td>
+    </tr>
+</table>
+
+<br>
+
+<table border="1">
+    <tr>
+        <th>Department</th>
+    </tr>
+    <tr>
+        <th> name</th>
+    </tr>
+    <tr th:each="department : ${departments}">
+        <td th:utext="${department.name}"></td>
+    </tr>
+</table>
+
+<!--
+Запоминаем дату
+<form th:action="/all" method="post">
+    <%= java.util.Date date = new java.util.Date();
+</form> -->
+
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+spring:
+  liquibase:
+    enabled: false
+    change-log: "classpath:/db/changelog/logs.yml"
+
+  datasource:
+    url: jdbc:hsqldb:~/test6
+    driverClassName: org.hsqldb.jdbc.JDBCDriver
+    username: us
+    password:
+
+  jpa:
+    database-platform: org.hibernate.dialect.HSQLDialect
+    hibernate:
+      ddl-auto: update
