@@ -1,7 +1,8 @@
 package bd.analytics.vkr.web.entity;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -9,7 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Employee")
-@Data
+@Getter @Setter
 @NoArgsConstructor
 public class Employee {
 
@@ -37,4 +38,17 @@ public class Employee {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set <WorkLogAnalytics> workLogAnalytics = new HashSet<>();
 
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", role='" + role + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", department=" + department +
+                ", jobPosition=" + jobPosition +
+                '}';
+    }
 }

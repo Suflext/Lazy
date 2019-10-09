@@ -1,12 +1,15 @@
 package bd.analytics.vkr.config;
 
+import bd.analytics.vkr.web.dto.ClientConvert;
+import bd.analytics.vkr.web.entity.Client;
 import bd.analytics.vkr.web.entity.Employee;
-import bd.analytics.vkr.web.repository.EmployeeRepository;
+import bd.analytics.vkr.web.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -14,30 +17,27 @@ import java.util.Optional;
 public class EmployeeDetailService implements UserDetailsService {
 
     @Autowired
-    private EmployeeRepository employeeRepo;
-    private ArrayList<Employee> employees = new ArrayList<>();
+    private EmployeeService employeeService;
 
-    private void init() {
-        Employee employee = new Employee();
-        employee.setLogin("null");
-        employees.add(employee);
-        employees.addAll(employeeRepo.findAll());
+    private ArrayList<Client> clients = new ArrayList<>();
+
+    public EmployeeDetailService(ArrayList<Employee> employees) {
+        clients.addAll(new ClientConvert().convert(employees));
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        init();
-        Optional<Employee> employee = employees.stream().filter(u -> u.getLogin().equals(username)).findAny();
+        Optional<Client> employee = clients.stream().filter(u -> u.getName().equals(username)).findAny();
         if (!employee.isPresent()) {
             throw new UsernameNotFoundException("User not found by name: " + username);
         }
         return toUserDetails(employee.get());
     }
 
-    private UserDetails toUserDetails(Employee employee) {
+    private UserDetails toUserDetails(Client employee) {
         return User
-                .withUsername(employee.getLogin())
-                .password(employee.getPassword())
+                .withUsername(employee.getName())
+                .password(new BCryptPasswordEncoder().encode(employee.getPassword()))
                 .roles(employee.getRole())
                 .build();
     }

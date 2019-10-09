@@ -2,11 +2,9 @@ package bd.analytics.vkr.web.service;
 
 import bd.analytics.vkr.web.entity.Employee;
 import bd.analytics.vkr.web.repository.EmployeeRepository;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class EmployeeService {
@@ -26,7 +24,7 @@ public class EmployeeService {
         employeeRepo.save(employee);
     }
 
-    public List findAll() {
+    public ArrayList<Employee> findAll() {
         return new ArrayList<>(employeeRepo.findAll());
     }
 

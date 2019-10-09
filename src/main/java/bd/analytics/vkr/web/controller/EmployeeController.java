@@ -43,7 +43,7 @@ public class EmployeeController {
 
     @GetMapping("/all")
     public String employee(Model model) {
-        //employeeService.add();
+        employeeService.add();
         model.addAttribute("employees", employeeService.findAll());
         model.addAttribute("positions", positionService.findAll());
         model.addAttribute("departments", departmentService.findAll());
