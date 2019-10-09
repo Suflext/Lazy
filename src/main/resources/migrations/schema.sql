@@ -61,11 +61,8 @@ CREATE TABLE System_Properties (
 );
 
 --changeset db:schema-add
-insert into Job_Position (monthHours, startTime, salory) values (160, null, 5000);
-insert into Job_Position (monthHours, startTime, salory) values (100, null, 2000);
-insert into Department (name) values ('firstDepartment');
+insert into Job_Position (id, month_Hours, start_Time, salory) values (1, 160, null, 5000);
+insert into Job_Position (id, month_Hours, start_Time, salory) values (2, 100, null, 2000);
+insert into Department (id, name, department_bonus) values (1, 'firstDepartment', 1);
 insert into Employee (role, login, password, first_Name, last_Name, department, job_Position) values ('USER', 'user1', 'us', 'Piter', 'Yann', 1, 1);
-insert into Department_Bonus (departmentId, dates, payout) values (1, null, 2000);
-insert into Work_Log (user_Id, start_Time, end_Time, duration) values (1, now(), now(), null);
-insert into Work_Log_Analytics (user_Id, dates, duration, type) values (1, null, null, 'week');
 
