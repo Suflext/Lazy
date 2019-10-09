@@ -3,8 +3,6 @@ package bd.analytics.vkr.config;
 import bd.analytics.vkr.web.dto.ClientConvert;
 import bd.analytics.vkr.web.entity.Client;
 import bd.analytics.vkr.web.entity.Employee;
-import bd.analytics.vkr.web.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,9 +13,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class EmployeeDetailService implements UserDetailsService {
-
-    @Autowired
-    private EmployeeService employeeService;
 
     private ArrayList<Client> clients = new ArrayList<>();
 
