@@ -4,7 +4,7 @@ spring:
     change-log: "classpath:/db/changelog/logs.yml"
 
   datasource:
-    url: jdbc:hsqldb:~/test6
+    url: jdbc:hsqldb:~/test7
     driverClassName: org.hsqldb.jdbc.JDBCDriver
     username: us
     password:

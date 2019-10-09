@@ -1,14 +1,13 @@
 package bd.analytics.vkr.web.entity;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "SystemProperties")
-@Getter @Setter
+@Data
 @NoArgsConstructor
 public class SystemProperties {
 
@@ -16,12 +15,9 @@ public class SystemProperties {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
     private String keys;
 
-    @Column
     private String val;
 
-    @Column
     private String description;
 }
