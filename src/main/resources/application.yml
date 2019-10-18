@@ -1,15 +1,15 @@
 spring:
   liquibase:
-    enabled: false
+    enabled: true
     change-log: "classpath:/db/changelog/logs.yml"
 
   datasource:
-    url: jdbc:hsqldb:~/test7
+    url: jdbc:hsqldb:mem:test;sql.syntax_pgs=true;allow_empty_batch=true
     driverClassName: org.hsqldb.jdbc.JDBCDriver
-    username: us
+    username: sa
     password:
 
   jpa:
     database-platform: org.hibernate.dialect.HSQLDialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
