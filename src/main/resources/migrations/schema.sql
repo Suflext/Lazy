@@ -55,7 +55,7 @@ CREATE TABLE Department_Bonus (
 
 CREATE TABLE System_Properties (
     id IDENTITY PRIMARY KEY,
-    keys VARCHAR (40),
+    KEY VARCHAR (40),
     val VARCHAR (40),
     description VARCHAR (40)
 );

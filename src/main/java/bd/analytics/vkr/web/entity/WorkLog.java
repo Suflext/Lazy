@@ -20,7 +20,7 @@ public class WorkLog {
 
     private Date startTime;
 
-    private String endTime;
+    private Date endTime;
 
     private String duration;
 

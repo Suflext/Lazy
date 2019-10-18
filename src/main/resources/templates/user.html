@@ -3,18 +3,21 @@
 <head>
 </head>
 <body>
+Name : <span th:utext="${name}"></span> <br>
+User : <span th:utext="${user}"></span> <br>
+Role : <span th:utext="${role}"></span> <br>
 
-    User
+<div class="container">
 
-    <div class="container">
-
-        <div class="starter-template">
-            <form th:action="@{/logout}" method="post">
-                <input type="submit" value="Sign Out"/>
-            </form>
-        </div>
+    <div class="starter-template">
+        <form th:action="@{/log}" th:object="${employee}" method="post">
+        <input type="hidden" th:field="*{login}" />
+        <input type="submit" value="Sign Out"/>
+        </form>
 
     </div>
+
+</div>
 
 
 </body>

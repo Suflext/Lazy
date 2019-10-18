@@ -38,17 +38,4 @@ public class Employee {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set <WorkLogAnalytics> workLogAnalytics = new HashSet<>();
 
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", role='" + role + '\'' +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", department=" + department +
-                ", jobPosition=" + jobPosition +
-                '}';
-    }
 }

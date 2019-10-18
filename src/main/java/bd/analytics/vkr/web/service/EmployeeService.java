@@ -1,10 +1,13 @@
 package bd.analytics.vkr.web.service;
 
 import bd.analytics.vkr.web.entity.Employee;
+import bd.analytics.vkr.web.entity.WorkLog;
 import bd.analytics.vkr.web.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Set;
 
 @Service
 public class EmployeeService {
@@ -28,4 +31,31 @@ public class EmployeeService {
         return new ArrayList<>(employeeRepo.findAll());
     }
 
+    public String findNameByLogin(String login) {
+        return employeeRepo.findByLogin(login).getFirstName();
+    }
+
+    public Employee findByLogin(String login) {
+        return employeeRepo.findByLogin(login);
+    }
+
+    public void addStartDate(Date date, String login) {
+        Employee employee = employeeRepo.findByLogin(login);
+        Set<WorkLog> setWorkLogs = employee.getWorkLogs();
+        WorkLog workLog = new WorkLog();
+        workLog.setStartTime(date);
+        setWorkLogs.add(workLog);
+        employee.setWorkLogs(setWorkLogs);
+        employeeRepo.save(employee);
+    }
+
+    public void addEndDate(Date date, String login) {
+        Employee employee = employeeRepo.findByLogin(login);
+        Set<WorkLog> setWorkLogs = employee.getWorkLogs();
+        WorkLog workLog = new WorkLog();//
+        workLog.setEndTime(date);//
+        setWorkLogs.add(workLog);//
+        employee.setWorkLogs(setWorkLogs);
+        employeeRepo.save(employee);
+    }
 }

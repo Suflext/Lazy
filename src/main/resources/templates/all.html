@@ -57,12 +57,23 @@
     </tr>
 </table>
 
-<!--
-Запоминаем дату
-<form th:action="/all" method="post">
-    <%= java.util.Date date = new java.util.Date();
-</form> -->
+<br>
 
+<table border="1">
+    <tr>
+        <th>WorkLog</th>
+    </tr>
+    <tr>
+        <th>startTime</th>
+        <th>duration</th>
+        <th>endTime</th>
+    </tr>
+    <tr th:each="worklog : ${worklogs}">
+        <td th:utext="${worklog.startTime}"></td>
+        <td th:utext="${worklog.duration}"></td>
+        <td th:utext="${worklog.endTime}"></td>
+    </tr>
+</table>
 
 </body>
 </html>
