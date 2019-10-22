@@ -1,13 +1,11 @@
 package analytics.service;
 
 import analytics.entity.Employee;
-import analytics.entity.WorkLog;
 import analytics.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
 
 @Service
 public class EmployeeService {
@@ -40,22 +38,22 @@ public class EmployeeService {
     }
 
     public void addStartDate(Date date, String login) {
-        Employee employee = employeeRepo.findByLogin(login);
-        Set<WorkLog> setWorkLogs = employee.getWorkLogs();
-        WorkLog workLog = new WorkLog();
-        workLog.setStartTime(date);
-        setWorkLogs.add(workLog);
-        employee.setWorkLogs(setWorkLogs);
-        employeeRepo.save(employee);
+//        Employee employee = employeeRepo.findByLogin(login);
+//        Set<WorkLog> setWorkLogs = employee.getWorkLogs();
+//        WorkLog workLog = new WorkLog();
+//        workLog.setStartTime(date);
+//        setWorkLogs.add(workLog);
+//        employee.setWorkLogs(setWorkLogs);
+//        employeeRepo.save(employee);
     }
 
     public void addEndDate(Date date, String login) {
-        Employee employee = employeeRepo.findByLogin(login);
-        Set<WorkLog> setWorkLogs = employee.getWorkLogs();
-        WorkLog workLog = new WorkLog();
-        workLog.setEndTime(date);
-        setWorkLogs.add(workLog);
-        employee.setWorkLogs(setWorkLogs);
-        employeeRepo.save(employee);
+//        Employee employee = employeeRepo.findByLogin(login);
+//        Set<WorkLog> setWorkLogs = employee.getWorkLogs();
+//        WorkLog workLog = new WorkLog();
+//        workLog.setEndTime(date);
+//        setWorkLogs.add(workLog);
+//        employee.setWorkLogs(setWorkLogs);
+//        employeeRepo.save(employee);
     }
 }

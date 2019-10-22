@@ -10,6 +10,7 @@
         <th>Employee</th>
     </tr>
     <tr>
+        <th> id</th>
         <th> firstName</th>
         <th> lastName</th>
         <th> login</th>
@@ -18,6 +19,7 @@
         <th> department</th>
     </tr>
     <tr th:each="employee : ${employees}">
+        <td th:utext="${employee.id}"></td>
         <td th:utext="${employee.firstName}"></td>
         <td th:utext="${employee.lastName}"></td>
         <td th:utext="${employee.login}"></td>
@@ -35,11 +37,11 @@
     </tr>
     <tr>
         <th> id</th>
-        <th> salory</th>
+        <th> salary</th>
     </tr>
     <tr th:each="positions : ${positions}">
         <td th:utext="${positions.id}"></td>
-        <td th:utext="${positions.salory}"></td>
+        <td th:utext="${positions.salary}"></td>
     </tr>
 </table>
 
@@ -50,9 +52,11 @@
         <th>Department</th>
     </tr>
     <tr>
+        <th> id</th>
         <th> name</th>
     </tr>
     <tr th:each="department : ${departments}">
+        <td th:utext="${department.id}"></td>
         <td th:utext="${department.name}"></td>
     </tr>
 </table>
@@ -64,16 +68,39 @@
         <th>WorkLog</th>
     </tr>
     <tr>
+        <th>id</th>
         <th>startTime</th>
         <th>duration</th>
         <th>endTime</th>
     </tr>
     <tr th:each="worklog : ${worklogs}">
+        <td th:utext="${worklog.id}"></td>
         <td th:utext="${worklog.startTime}"></td>
         <td th:utext="${worklog.duration}"></td>
         <td th:utext="${worklog.endTime}"></td>
     </tr>
 </table>
 
+<br>
+
+<table border="1">
+    <tr>
+        <th>work_log_report</th>
+    </tr>
+    <tr>
+        <th>id</th>
+        <th>startTime</th>
+        <th>duration</th>
+        <th>type</th>
+    </tr>
+    <tr th:each="report : ${work_log_report}">
+        <td th:utext="${report.id}"></td>
+        <td th:utext="${report.START_DATE}"></td>
+        <td th:utext="${report.duration}"></td>
+        <td th:utext="${report.type}"></td>
+    </tr>
+</table>
+
 </body>
 </html>
+

@@ -19,7 +19,7 @@ public class Department {
 
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     private Set<Employee> employees = new HashSet<>();
 
 }

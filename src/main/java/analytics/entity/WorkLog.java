@@ -16,12 +16,16 @@ public class WorkLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Employee employee;
+  //  private Long employee;
 
     private Date startTime;
 
     private Date endTime;
 
     private Long duration;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "EMPLOYEE", referencedColumnName = "id")
+    private Employee employee;
 
 }

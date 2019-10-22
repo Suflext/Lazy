@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "SystemProperties")
+@Table(name = "SYSTEM_PROPERTY")
 @Data
 @NoArgsConstructor
 public class SystemProperties {

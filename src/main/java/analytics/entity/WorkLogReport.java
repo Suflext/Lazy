@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "WORK_LOG_REPORT")
@@ -15,14 +16,17 @@ public class WorkLogReport {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private long employee;
+//    private Long employee;
 
-    private String dates;
+    private Date START_DATE;
 
-    private String duration;
-
+    private Long duration;
 
     private ReportPeriodType type;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "EMPLOYEE", referencedColumnName = "id")
+    private Employee employee;
 
     enum ReportPeriodType {week, month, year}
 

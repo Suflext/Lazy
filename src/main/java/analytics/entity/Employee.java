@@ -1,20 +1,14 @@
 package analytics.entity;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "EMPLOYEE")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@ToString(of = {"id", "role"})
 public class Employee {
 
     @Id
@@ -31,14 +25,11 @@ public class Employee {
 
     private String lastName;
 
-    private Department department;
+    private Long department;
 
-    private JobPosition jobPosition;
+    private Long jobPosition;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set <WorkLog> workLogs = new HashSet<>();
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set <WorkLogReport> workLogAnalytics = new HashSet<>();
+//    @OneToMany(fetch = FetchType.LAZY)
+//    private Set<WorkLog> workLogs = new HashSet<>();
 
 }

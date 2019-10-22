@@ -19,7 +19,7 @@ public class DepartmentBonus {
 
     private Long payout;
 
-    @OneToOne (cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Department department;
 
 }

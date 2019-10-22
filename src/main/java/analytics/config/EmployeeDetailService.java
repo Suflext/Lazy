@@ -1,7 +1,5 @@
 package analytics.config;
 
-import analytics.dto.ClientConvert;
-import analytics.entity.Client;
 import analytics.entity.Employee;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,24 +12,24 @@ import java.util.Optional;
 
 public class EmployeeDetailService implements UserDetailsService {
 
-    private ArrayList<Client> clients = new ArrayList<>();
+    private ArrayList<Employee> employees;
 
     public EmployeeDetailService(ArrayList<Employee> employees) {
-        clients.addAll(new ClientConvert().convert(employees));
+        this.employees = employees;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Client> employee = clients.stream().filter(u -> u.getName().equals(username)).findAny();
+        Optional<Employee> employee = employees.stream().filter(u -> u.getLogin().equals(username)).findAny();
         if (!employee.isPresent()) {
             throw new UsernameNotFoundException("User not found by name: " + username);
         }
         return toUserDetails(employee.get());
     }
 
-    private UserDetails toUserDetails(Client employee) {
+    private UserDetails toUserDetails(Employee employee) {
         return User
-                .withUsername(employee.getName())
+                .withUsername(employee.getLogin())
                 .password(new BCryptPasswordEncoder().encode(employee.getPassword()))
                 .roles(employee.getRole())
                 .build();

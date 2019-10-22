@@ -1,10 +1,7 @@
 package analytics.controller;
 
 import analytics.entity.Employee;
-import analytics.service.DepartmentService;
-import analytics.service.EmployeeService;
-import analytics.service.PositionService;
-import analytics.service.WorkLogService;
+import analytics.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,6 +27,9 @@ public class EmployeeController {
 
     @Autowired
     private WorkLogService workLogService;
+
+    @Autowired
+    private WorkLogReportService workLogReportService;
 
     @GetMapping(value = {"/", "/index"})
     public String index(){
@@ -60,6 +60,7 @@ public class EmployeeController {
     public String employee(Model model) {
         //employeeService.add();
         model.addAttribute("worklogs", workLogService.findAll());
+        model.addAttribute("work_log_report", workLogReportService.findAll());
         model.addAttribute("employees", employeeService.findAll());
         model.addAttribute("positions", positionService.findAll());
         model.addAttribute("departments", departmentService.findAll());
