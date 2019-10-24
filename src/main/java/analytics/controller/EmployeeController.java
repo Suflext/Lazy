@@ -1,5 +1,6 @@
 package analytics.controller;
 
+import analytics.MyUserDetails;
 import analytics.entity.Employee;
 import analytics.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,34 +32,41 @@ public class EmployeeController {
     @Autowired
     private WorkLogReportService workLogReportService;
 
-    @GetMapping(value = {"/", "/index"})
-    public String index(){
-       return "index";
-    }
+    private MyUserDetails myUserDetails;
 
-    @PostMapping(value = {"/log"})
-    public String logout(@ModelAttribute Employee employee){
-        employeeService.addEndDate(new Date(), employee.getLogin());
+    private Authentication authentication;
+
+    @PostMapping("/log")
+    public String logout(@ModelAttribute Employee employee) {
+        workLogService.addEndDate(new Date(), myUserDetails.getEmployee());
         return "redirect:/logout";
     }
 
-    @GetMapping("/user")
+    @GetMapping("/logns")
+    public String logIn() {
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+        myUserDetails = (MyUserDetails) authentication.getPrincipal();
+        myUserDetails.setEmployee(employeeService.findByLogin(myUserDetails.getUsername()));
+        workLogService.addStartDate(new Date(), myUserDetails.getEmployee());
+        return "redirect:/user";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @GetMapping(value = {"/", "/user"})
     public String user(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext()
-                .getAuthentication();
-        String login = authentication.getName();
-        String firstName = employeeService.findNameByLogin(login);
-        model.addAttribute("name", firstName);
-        model.addAttribute("user", login);
+        model.addAttribute("name", myUserDetails.getEmployee().getFirstName());
+        model.addAttribute("user", myUserDetails.getUsername());
         model.addAttribute("role", authentication.getAuthorities());
-        model.addAttribute("employee", employeeService.findByLogin(login));
-        employeeService.addStartDate(new Date(), login);
+        model.addAttribute("employee", myUserDetails.getEmployee());
         return "user";
     }
 
     @GetMapping("/all")
     public String employee(Model model) {
-        //employeeService.add();
         model.addAttribute("worklogs", workLogService.findAll());
         model.addAttribute("work_log_report", workLogReportService.findAll());
         model.addAttribute("employees", employeeService.findAll());

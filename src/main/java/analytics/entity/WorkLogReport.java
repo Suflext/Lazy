@@ -16,8 +16,6 @@ public class WorkLogReport {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-//    private Long employee;
-
     private Date START_DATE;
 
     private Long duration;

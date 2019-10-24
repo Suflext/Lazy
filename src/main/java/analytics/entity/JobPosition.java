@@ -5,8 +5,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "JOB_POSITION")
@@ -23,8 +21,5 @@ public class JobPosition {
     private Date startTime;
 
     private Long salary;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    private Set<Employee> employees = new HashSet<>();
 
 }

@@ -25,11 +25,12 @@ public class Employee {
 
     private String lastName;
 
-    private Long department;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "DEPARTMENT", referencedColumnName = "id")
+    private Department department;
 
-    private Long jobPosition;
-
-//    @OneToMany(fetch = FetchType.LAZY)
-//    private Set<WorkLog> workLogs = new HashSet<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "JOB_POSITION", referencedColumnName = "id")
+    private JobPosition jobPosition;
 
 }

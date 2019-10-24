@@ -5,7 +5,6 @@ import analytics.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 @Service
 public class EmployeeService {
@@ -37,17 +36,14 @@ public class EmployeeService {
         return employeeRepo.findByLogin(login);
     }
 
-    public void addStartDate(Date date, String login) {
-//        Employee employee = employeeRepo.findByLogin(login);
-//        Set<WorkLog> setWorkLogs = employee.getWorkLogs();
+//    public void addStartDate(Date date, Employee employee) {
 //        WorkLog workLog = new WorkLog();
 //        workLog.setStartTime(date);
-//        setWorkLogs.add(workLog);
-//        employee.setWorkLogs(setWorkLogs);
-//        employeeRepo.save(employee);
-    }
+//        workLog.setEmployee(employee);
+//
+//    }
 
-    public void addEndDate(Date date, String login) {
+//    public void addEndDate(Date date, String login) {
 //        Employee employee = employeeRepo.findByLogin(login);
 //        Set<WorkLog> setWorkLogs = employee.getWorkLogs();
 //        WorkLog workLog = new WorkLog();
@@ -55,5 +51,5 @@ public class EmployeeService {
 //        setWorkLogs.add(workLog);
 //        employee.setWorkLogs(setWorkLogs);
 //        employeeRepo.save(employee);
-    }
+//    }
 }

@@ -16,7 +16,7 @@ public class WorkLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-  //  private Long employee;
+    private Date daily_time;
 
     private Date startTime;
 
