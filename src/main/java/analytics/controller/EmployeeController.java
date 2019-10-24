@@ -6,6 +6,7 @@ import analytics.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,7 +46,11 @@ public class EmployeeController {
     @GetMapping("/logns")
     public String logIn() {
         authentication = SecurityContextHolder.getContext().getAuthentication();
-        myUserDetails = (MyUserDetails) authentication.getPrincipal();
+//        myUserDetails = new MyUserDetails((UserDetails) authentication.getPrincipal());
+        myUserDetails = new MyUserDetails(
+                ((User)authentication.getPrincipal()).getUsername(),
+                ((User)authentication.getPrincipal()).getAuthorities()
+        );
         myUserDetails.setEmployee(employeeService.findByLogin(myUserDetails.getUsername()));
         workLogService.addStartDate(new Date(), myUserDetails.getEmployee());
         return "redirect:/user";
