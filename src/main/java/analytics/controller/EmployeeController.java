@@ -46,7 +46,6 @@ public class EmployeeController {
     @GetMapping("/logns")
     public String logIn() {
         authentication = SecurityContextHolder.getContext().getAuthentication();
-//        myUserDetails = new MyUserDetails((UserDetails) authentication.getPrincipal());
         myUserDetails = new MyUserDetails(
                 ((User)authentication.getPrincipal()).getUsername(),
                 ((User)authentication.getPrincipal()).getAuthorities()
