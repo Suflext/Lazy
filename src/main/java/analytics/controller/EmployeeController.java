@@ -65,13 +65,12 @@ public class EmployeeController {
     @GetMapping("/duration")
     public String duration(Model model, Authentication authentication) {
         MyUserDetails myUserDetails = getMyUserDetails(authentication);
-        model.addAttribute("user", myUserDetails.getUsername());
-        long duration =workLogService.getDuration(myUserDetails.getEmployee(), LocalDate.now());
+        long duration = workLogService.getDuration(myUserDetails.getEmployee(), LocalDate.now());
         model.addAttribute("WorkedAlready", workLogService.getStringFormatDuration(duration));
         model.addAttribute("IdeaWork", workLogService.getStringFormatDuration(
-                myUserDetails.getEmployee().getJobPosition().getWeekHours()*3600/6));//6-daysWork
+                myUserDetails.getEmployee().getJobPosition().getWeekHours() * 3600 / 6));//6-daysWork
         model.addAttribute("LeftWork", workLogService.getStringFormatDuration(
-                myUserDetails.getEmployee().getJobPosition().getWeekHours()*3600/6 - duration));//6-daysWork
+                myUserDetails.getEmployee().getJobPosition().getWeekHours() * 3600 / 6 - duration));//6-daysWork
         return "duration";
     }
 
@@ -87,8 +86,8 @@ public class EmployeeController {
 
     private MyUserDetails getMyUserDetails(Authentication authentication) {
         MyUserDetails myUserDetails = new MyUserDetails(
-                ((User)authentication.getPrincipal()).getUsername(),
-                ((User)authentication.getPrincipal()).getAuthorities()
+                ((User) authentication.getPrincipal()).getUsername(),
+                ((User) authentication.getPrincipal()).getAuthorities()
         );
         myUserDetails.setEmployee(employeeService.findByLogin(myUserDetails.getUsername()));
         return myUserDetails;
