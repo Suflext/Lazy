@@ -68,9 +68,10 @@ public class EmployeeController {
         model.addAttribute("user", myUserDetails.getUsername());
         long duration =workLogService.getDuration(myUserDetails.getEmployee(), LocalDate.now());
         model.addAttribute("WorkedAlready", workLogService.getStringFormatDuration(duration));
-        model.addAttribute("IdeaWork", myUserDetails.getEmployee().getJobPosition().getWeekHours() + " hours");
+        model.addAttribute("IdeaWork", workLogService.getStringFormatDuration(
+                myUserDetails.getEmployee().getJobPosition().getWeekHours()*3600/6));//6-daysWork
         model.addAttribute("LeftWork", workLogService.getStringFormatDuration(
-                myUserDetails.getEmployee().getJobPosition().getWeekHours()*3600 - duration));
+                myUserDetails.getEmployee().getJobPosition().getWeekHours()*3600/6 - duration));//6-daysWork
         return "duration";
     }
 
