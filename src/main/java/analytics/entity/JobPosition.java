@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "JOB_POSITION")
@@ -16,9 +16,9 @@ public class JobPosition {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long monthHours;
+    private Long weekHours;
 
-    private Date startTime;
+    private LocalTime startTime;
 
     private Long salary;
 

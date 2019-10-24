@@ -10,31 +10,15 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title></title>
+    <title>Duration</title>
 
 </head>
 <body>
 
-<div th:include="menu :: header"></div>
-
-<br> <i> <b> Info Users: </b> </i> <br>
-
-Name : <span th:utext="${name}"></span> <br>
-User : <span th:utext="${user}"></span> <br>
-Role : <span th:utext="${role}"></span> <br>
-<br>
-
-<div class="container">
-
-    <div class="starter-template">
-        <form th:action="@{/log}" method="post">
-            <input type="submit" value="Sign Out"/>
-        </form>
-
-    </div>
-
-</div>
-
+<span th:utext="${user}"> </span> <br>
+Worked already : <span th:utext="${WorkedAlready}"></span> <br>
+Work plan : <span th:utext="${IdeaWork}"></span> <br>
+Left Work : <span th:utext="${LeftWork}"></span> <br>
 
 </body>
 </html>

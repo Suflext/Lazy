@@ -1,6 +1,6 @@
 package analytics.service;
 
-import analytics.repository.PositionRepository;
+import analytics.repository.JobPositionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -9,9 +9,9 @@ import java.util.List;
 @Service
 public class PositionService {
 
-    private PositionRepository positionRepo;
+    private JobPositionRepository positionRepo;
 
-    public PositionService(PositionRepository positionRepo) {
+    public PositionService(JobPositionRepository positionRepo) {
         this.positionRepo = positionRepo;
     }
 

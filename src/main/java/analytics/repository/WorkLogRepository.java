@@ -3,14 +3,13 @@ package analytics.repository;
 import analytics.entity.WorkLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public interface WorkLogRepository extends JpaRepository<WorkLog, Long> {
 
     ArrayList<WorkLog> findAll();
 
-    //@Query("SELECT * FROM WORK_LOG w WHERE w.EMPLOYEE.LOGIN = ?")
-//    WorkLog findByEmployeeLogin(String login);
+    ArrayList<WorkLog> findAllByDaily(LocalDate date);
 
-    WorkLog findById(long id);
 }

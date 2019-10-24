@@ -1,5 +1,6 @@
 package analytics.service;
 
+import analytics.entity.Employee;
 import analytics.entity.WorkLogReport;
 import analytics.repository.WorkLogReportRepository;
 import org.springframework.stereotype.Service;
@@ -19,4 +20,5 @@ public class WorkLogReportService {
     public ArrayList<WorkLogReport> findAll() {
         return new ArrayList<>(workLogRepo.findAll());
     }
+
 }

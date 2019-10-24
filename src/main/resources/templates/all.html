@@ -31,8 +31,8 @@
         <td th:utext="${employee.lastName}"></td>
         <td th:utext="${employee.login}"></td>
         <td th:utext="${employee.password}"></td>
-        <td th:utext="${employee.jobPosition}"></td>
-        <td th:utext="${employee.department}"></td>
+        <td th:utext="${employee.jobPosition.id}"></td>
+        <td th:utext="${employee.department.id}"></td>
     </tr>
 </table>
 
@@ -76,12 +76,14 @@
     </tr>
     <tr>
         <th>id</th>
+        <th>daily</th>
         <th>startTime</th>
         <th>duration</th>
         <th>endTime</th>
     </tr>
     <tr th:each="worklog : ${worklogs}">
         <td th:utext="${worklog.id}"></td>
+        <td th:utext="${worklog.daily}"></td>
         <td th:utext="${worklog.startTime}"></td>
         <td th:utext="${worklog.duration}"></td>
         <td th:utext="${worklog.endTime}"></td>

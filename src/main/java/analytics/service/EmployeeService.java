@@ -36,20 +36,4 @@ public class EmployeeService {
         return employeeRepo.findByLogin(login);
     }
 
-//    public void addStartDate(Date date, Employee employee) {
-//        WorkLog workLog = new WorkLog();
-//        workLog.setStartTime(date);
-//        workLog.setEmployee(employee);
-//
-//    }
-
-//    public void addEndDate(Date date, String login) {
-//        Employee employee = employeeRepo.findByLogin(login);
-//        Set<WorkLog> setWorkLogs = employee.getWorkLogs();
-//        WorkLog workLog = new WorkLog();
-//        workLog.setEndTime(date);
-//        setWorkLogs.add(workLog);
-//        employee.setWorkLogs(setWorkLogs);
-//        employeeRepo.save(employee);
-//    }
 }
