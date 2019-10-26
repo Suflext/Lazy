@@ -26,6 +26,6 @@ public class WorkLogReport {
     @JoinColumn(name = "EMPLOYEE", referencedColumnName = "id")
     private Employee employee;
 
-    enum ReportPeriodType {day, week, month, year}
+    enum ReportPeriodType {week, month, year}
 
 }

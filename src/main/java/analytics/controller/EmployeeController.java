@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -57,6 +58,7 @@ public class EmployeeController {
     public String user(Model model, Authentication authentication) {
         MyUserDetails myUserDetails = getMyUserDetails(authentication);
         model.addAttribute("name", myUserDetails.getEmployee().getFirstName());
+        model.addAttribute("employee", myUserDetails.getEmployee());
         model.addAttribute("user", myUserDetails.getUsername());
         model.addAttribute("role", myUserDetails.getAuthorities());
         return "user";
@@ -65,13 +67,39 @@ public class EmployeeController {
     @GetMapping("/duration")
     public String duration(Model model, Authentication authentication) {
         MyUserDetails myUserDetails = getMyUserDetails(authentication);
-        long duration = workLogService.getDuration(myUserDetails.getEmployee(), LocalDate.now());
-        model.addAttribute("WorkedAlready", workLogService.getStringFormatDuration(duration));
-        model.addAttribute("IdeaWork", workLogService.getStringFormatDuration(
-                myUserDetails.getEmployee().getJobPosition().getWeekHours() * 3600 / 6));//6-daysWork
-        model.addAttribute("LeftWork", workLogService.getStringFormatDuration(
-                myUserDetails.getEmployee().getJobPosition().getWeekHours() * 3600 / 6 - duration));//6-daysWork
+        long dayDuration = workLogService.getDuration(myUserDetails.getEmployee(), LocalDate.now());
+        model.addAttribute("DayWorkedAlready", workLogService.getStringFormatDuration(dayDuration));
+        long timeWork = myUserDetails.getEmployee().getJobPosition().getWeekHours();
+        model.addAttribute("DayIdeaWork", workLogService.getStringFormatDuration(
+                timeWork * 3600 / 6));//6-daysWork
+        model.addAttribute("DayLeftWork", workLogService.getStringFormatDuration(
+                timeWork * 3600 / 6 - dayDuration));//6-daysWork
+
+
+        long weekDuration = workLogReportService.timeWorkUp("week", LocalDate.now().with(DayOfWeek.MONDAY), myUserDetails.getEmployee());
+        model.addAttribute("WeekWorkedAlready", workLogService.getStringFormatDuration(
+                weekDuration));
+        model.addAttribute("WeekIdeaWork", workLogService.getStringFormatDuration(
+                timeWork * 3600));
+        model.addAttribute("WeekLeftWork", workLogService.getStringFormatDuration(
+                timeWork * 3600 - weekDuration));
+
+
+        model.addAttribute("MonthWorkedAlready", workLogService.getStringFormatDuration(
+                workLogReportService.timeWorkUp("month", LocalDate.now().withDayOfMonth(1), myUserDetails.getEmployee())));
         return "duration";
+    }
+
+    @GetMapping("/allowance")
+    public String salaryAllowance(Model model, Authentication authentication) {
+        MyUserDetails myUserDetails = getMyUserDetails(authentication);
+        long allowance = myUserDetails.getEmployee().getJobPosition().getWeekHours() * 3600 -
+                workLogReportService.timeWorkUp("week", LocalDate.now().with(DayOfWeek.MONDAY),
+                        myUserDetails.getEmployee());
+        model.addAttribute("SalaryAllowance", (allowance < 0) ? "Вы переработали : " +
+                workLogService.getStringFormatDuration(-allowance) : "Вы не доработали : " +
+                workLogService.getStringFormatDuration(allowance));
+        return "allowance";
     }
 
     @GetMapping("/all")

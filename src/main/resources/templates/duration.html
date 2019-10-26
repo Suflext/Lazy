@@ -16,9 +16,23 @@
 <body>
 
 <i> <b> Work this day </b> </i> <br>
-Worked already : <span th:utext="${WorkedAlready}"></span> <br>
-Work plan : <span th:utext="${IdeaWork}"></span> <br>
-Left Work : <span th:utext="${LeftWork}"></span> <br>
+Отработано : <span th:utext="${DayWorkedAlready}"></span> <br>
+Рабочий план: <span th:utext="${DayIdeaWork}"></span> <br>
+Осталось отработать : <span th:utext="${DayLeftWork}"></span> <br>
+
+<br>
+<br>
+
+<i> <b> Work this week </b> </i> <br>
+Отработано : <span th:utext="${WeekWorkedAlready}"></span> <br>
+Рабочий план: <span th:utext="${WeekIdeaWork}"></span> <br>
+Осталось отработать : <span th:utext="${WeekLeftWork}"></span> <br>
+
+<br>
+<br>
+
+<i> <b> Work this month </b> </i> <br>
+Отработано : <span th:utext="${MonthWorkedAlready}"></span> <br>
 
 </body>
 </html>

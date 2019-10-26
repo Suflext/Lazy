@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/security/tags" >
 <head>
 
     <!-- Required meta tags -->
@@ -16,6 +16,20 @@
 <body>
 
 <div th:include="menu :: header"></div>
+
+<!--
+<sec:authorize access="hasRole('ADMIN')">
+    Manage Users
+</sec:authorize>
+
+<div sec:authorize="hasRole('ADMIN')">
+    This content is only shown to administrators.
+</div>
+
+<div sec:authorize="hasRole('USER')">
+    This content is only shown to users.
+</div>
+-->
 
 <br> <i> <b> Info Users: </b> </i> <br>
 

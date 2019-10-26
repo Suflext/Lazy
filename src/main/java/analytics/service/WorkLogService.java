@@ -32,18 +32,17 @@ public class WorkLogService {
     }
 
     public void addEndDate(LocalTime date, Employee employee) {
-        ArrayList<WorkLog> list2 = getListWorkLogs(employee, LocalDate.now());
-        list2.sort(WorkLog.COMPARE_BY_ID);
-        WorkLog workLog = list2.get(list2.size() - 1);
+        ArrayList<WorkLog> list = workLogRepo.findAllByDailyAndEmployee(LocalDate.now(), employee.getId());
+        list.sort(WorkLog.COMPARE_BY_ID);
+        WorkLog workLog = list.get(list.size() - 1);
         workLog.setEndTime(date);
         workLog.setDuration(Duration.between(workLog.getStartTime(), date).getSeconds());
         workLogRepo.save(workLog);
     }
 
     public Long getDuration(Employee employee, LocalDate localDate) {
-        ArrayList<WorkLog> list = getListWorkLogs(employee, localDate);
-        long duration = 0;
-        for (WorkLog workLog : list) {
+        long duration= 0;
+        for (WorkLog workLog : workLogRepo.findAllByDailyAndEmployee(localDate, employee.getId())) {
             if (workLog.getEndTime() != null)
                 duration += workLog.getDuration();
             else
@@ -63,15 +62,5 @@ public class WorkLogService {
             minutes -= hours * 60;
         }
         return hours + " hours " + minutes + " minutes " + duration + " seconds";
-    }
-
-    private ArrayList<WorkLog> getListWorkLogs(Employee employee, LocalDate localDate) {
-        ArrayList<WorkLog> list = new ArrayList<>();
-        for (WorkLog workLog : workLogRepo.findAllByDaily(localDate)) {
-            if (employee.getLogin().equals(workLog.getEmployee().getLogin())) {
-                list.add(workLog);
-            }
-        }
-        return list;
     }
 }
