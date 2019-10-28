@@ -75,7 +75,6 @@ public class EmployeeController {
         model.addAttribute("DayLeftWork", workLogService.getStringFormatDuration(
                 timeWork * 3600 / 6 - dayDuration));//6-daysWork
 
-
         long weekDuration = workLogReportService.timeWorkUp("week", LocalDate.now().with(DayOfWeek.MONDAY), myUserDetails.getEmployee());
         model.addAttribute("WeekWorkedAlready", workLogService.getStringFormatDuration(
                 weekDuration));
@@ -83,7 +82,6 @@ public class EmployeeController {
                 timeWork * 3600));
         model.addAttribute("WeekLeftWork", workLogService.getStringFormatDuration(
                 timeWork * 3600 - weekDuration));
-
 
         model.addAttribute("MonthWorkedAlready", workLogService.getStringFormatDuration(
                 workLogReportService.timeWorkUp("month", LocalDate.now().withDayOfMonth(1), myUserDetails.getEmployee())));
@@ -100,6 +98,18 @@ public class EmployeeController {
                 workLogService.getStringFormatDuration(-allowance) : "Вы не доработали : " +
                 workLogService.getStringFormatDuration(allowance));
         return "allowance";
+    }
+
+    @GetMapping("/active")
+    public String activeEmployee(Model model) {
+        model.addAttribute("activeEmployees", workLogService.getActiveEmployee());
+        return "active";
+    }
+
+    @GetMapping("/rating")
+    public String rating(Model model) {
+        model.addAttribute("ratings", workLogService.getRatingEmployee());
+        return "rating";
     }
 
     @GetMapping("/all")

@@ -2,21 +2,23 @@ package analytics.service;
 
 import analytics.entity.Employee;
 import analytics.entity.WorkLog;
+import analytics.repository.EmployeeRepository;
 import analytics.repository.WorkLogRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-
+import java.util.*;
 @Service
 public class WorkLogService {
 
     private WorkLogRepository workLogRepo;
+    private EmployeeRepository employeeRepo;
 
-    public WorkLogService(WorkLogRepository workLogRepo) {
+    public WorkLogService(WorkLogRepository workLogRepo, EmployeeRepository employeeRepo) {
         this.workLogRepo = workLogRepo;
+        this.employeeRepo = employeeRepo;
     }
 
     public ArrayList<WorkLog> findAll() {
@@ -41,7 +43,7 @@ public class WorkLogService {
     }
 
     public Long getDuration(Employee employee, LocalDate localDate) {
-        long duration= 0;
+        long duration = 0;
         for (WorkLog workLog : workLogRepo.findAllByDailyAndEmployee(localDate, employee.getId())) {
             if (workLog.getEndTime() != null)
                 duration += workLog.getDuration();
@@ -62,5 +64,24 @@ public class WorkLogService {
             minutes -= hours * 60;
         }
         return hours + " hours " + minutes + " minutes " + duration + " seconds";
+    }
+
+    public ArrayList<WorkLog> getActiveEmployee() {
+        return workLogRepo.findByEndTime();
+    }
+
+    public Collection<Employee> getRatingEmployee() {
+        TreeMap<Long, Employee> sorted = new TreeMap<>(Collections.reverseOrder());
+        for (Employee employee : employeeRepo.findAll()) {
+            long duration = 0;
+            for (WorkLog workLog : workLogRepo.findAllByEmployeeId(employee.getId())) {
+                if (workLog.getEndTime() != null)
+                    duration += workLog.getDuration();
+                else
+                    duration += Duration.between(workLog.getStartTime(), LocalTime.now()).getSeconds();
+            }
+            sorted.put(duration, employee);
+        }
+        return sorted.values();
     }
 }
