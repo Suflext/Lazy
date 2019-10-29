@@ -25,32 +25,23 @@ public class WorkLogService {
         return new ArrayList<>(workLogRepo.findAll());
     }
 
-    public void addStartDate(LocalTime date, Employee employee) {
+    public void addStartDate(Employee employee) {
         WorkLog workLog = new WorkLog();
-        workLog.setStartTime(date);
+        workLog.setStartTime(LocalTime.now());
         workLog.setDaily(LocalDate.now());
         workLog.setEmployee(employee);
         workLogRepo.save(workLog);
     }
 
-    public void addEndDate(LocalTime date, Employee employee) {
-        ArrayList<WorkLog> list = workLogRepo.findAllByDailyAndEmployee(LocalDate.now(), employee.getId());
-        list.sort(WorkLog.COMPARE_BY_ID);
-        WorkLog workLog = list.get(list.size() - 1);
-        workLog.setEndTime(date);
-        workLog.setDuration(Duration.between(workLog.getStartTime(), date).getSeconds());
+    public void addEndDate(Employee employee) {
+        WorkLog workLog = workLogRepo.findByDailyAndEmployeeAndOrder(employee.getId());
+        workLog.setEndTime(LocalTime.now());
+        workLog.setDuration(Duration.between(workLog.getStartTime(), LocalTime.now()).getSeconds());
         workLogRepo.save(workLog);
     }
 
     public Long getDuration(Employee employee, LocalDate localDate) {
-        long duration = 0;
-        for (WorkLog workLog : workLogRepo.findAllByDailyAndEmployee(localDate, employee.getId())) {
-            if (workLog.getEndTime() != null)
-                duration += workLog.getDuration();
-            else
-                duration += Duration.between(workLog.getStartTime(), LocalTime.now()).getSeconds();
-        }
-        return duration;
+        return Duration.between(LocalTime.parse("00:00:00"), LocalTime.parse(workLogRepo.findAllByDailyAndEmployee(localDate, employee.getId()).split(" ")[1])).getSeconds();
     }
 
     public String getStringFormatDuration(long duration) {
@@ -70,18 +61,4 @@ public class WorkLogService {
         return workLogRepo.findByEndTime();
     }
 
-    public Collection<Employee> getRatingEmployee() {
-        TreeMap<Long, Employee> sorted = new TreeMap<>(Collections.reverseOrder());
-        for (Employee employee : employeeRepo.findAll()) {
-            long duration = 0;
-            for (WorkLog workLog : workLogRepo.findAllByEmployeeId(employee.getId())) {
-                if (workLog.getEndTime() != null)
-                    duration += workLog.getDuration();
-                else
-                    duration += Duration.between(workLog.getStartTime(), LocalTime.now()).getSeconds();
-            }
-            sorted.put(duration, employee);
-        }
-        return sorted.values();
-    }
 }

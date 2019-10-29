@@ -8,8 +8,11 @@ import java.util.ArrayList;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-    @Query("Select e from Employee e where e.login = ?1")
     Employee findByLogin(String login);
 
     ArrayList<Employee> findAll();
+
+    @Query(value = "SELECT E.*, W.ort FROM EMPLOYEE E LEFT JOIN (SELECT US_ID AS ID, SUM (src) AS ort FROM (SELECT SUM (COALESCE (L.END_TIME, LOCALTIME) - L.START_TIME) AS src, L.EMPLOYEE AS US_ID FROM WORK_LOG L GROUP BY US_ID) GROUP BY ID) AS W ON (E.ID = W.ID) ORDER BY W.ort DESC",
+            nativeQuery = true)
+    ArrayList<Employee> findEmployeeBySumDuration();
 }

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Controller
 public class EmployeeController {
@@ -38,14 +37,14 @@ public class EmployeeController {
     @PostMapping("/log")
     public String logout(Authentication authentication) {
         MyUserDetails myUserDetails = getMyUserDetails(authentication);
-        workLogService.addEndDate(LocalTime.now(), myUserDetails.getEmployee());
+        workLogService.addEndDate(myUserDetails.getEmployee());
         return "redirect:/logout";
     }
 
     @GetMapping("/log")
     public String logIn(Authentication authentication) {
         MyUserDetails myUserDetails = getMyUserDetails(authentication);
-        workLogService.addStartDate(LocalTime.now(), myUserDetails.getEmployee());
+        workLogService.addStartDate(myUserDetails.getEmployee());
         return "redirect:/user";
     }
 
@@ -108,7 +107,7 @@ public class EmployeeController {
 
     @GetMapping("/rating")
     public String rating(Model model) {
-        model.addAttribute("ratings", workLogService.getRatingEmployee());
+        model.addAttribute("ratings", employeeService.getRatingEmployee());
         return "rating";
     }
 

@@ -36,4 +36,7 @@ public class EmployeeService {
         return employeeRepo.findByLogin(login);
     }
 
+    public ArrayList<Employee> getRatingEmployee() {
+        return employeeRepo.findEmployeeBySumDuration();
+    }
 }
