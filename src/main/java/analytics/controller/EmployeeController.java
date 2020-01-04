@@ -1,10 +1,9 @@
 package analytics.controller;
 
-import analytics.MyUserDetails;
+import analytics.Client;
 import analytics.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,19 +30,16 @@ public class EmployeeController {
     @Autowired
     private WorkLogReportService workLogReportService;
 
-    @Autowired
-    private JobPositionService jobPositionService;
-
-    @PostMapping("/log")
+    @GetMapping("/beforeLogOut")
     public String logout(Authentication authentication) {
-        MyUserDetails myUserDetails = getMyUserDetails(authentication);
+        Client myUserDetails = getMyUserDetails(authentication);
         workLogService.addEndDate(myUserDetails.getEmployee());
         return "redirect:/logout";
     }
 
-    @GetMapping("/log")
+    @GetMapping("/afterLogIn")
     public String logIn(Authentication authentication) {
-        MyUserDetails myUserDetails = getMyUserDetails(authentication);
+        Client myUserDetails = getMyUserDetails(authentication);
         workLogService.addStartDate(myUserDetails.getEmployee());
         return "redirect:/user";
     }
@@ -55,17 +51,17 @@ public class EmployeeController {
 
     @GetMapping(value = {"/", "/user"})
     public String user(Model model, Authentication authentication) {
-        MyUserDetails myUserDetails = getMyUserDetails(authentication);
-        model.addAttribute("name", myUserDetails.getEmployee().getFirstName());
-        model.addAttribute("employee", myUserDetails.getEmployee());
-        model.addAttribute("user", myUserDetails.getUsername());
-        model.addAttribute("role", myUserDetails.getAuthorities());
+        Client user = getMyUserDetails(authentication);
+        model.addAttribute("name", user.getEmployee().getFirstName());
+        model.addAttribute("employee", user.getEmployee());
+        model.addAttribute("user", user.getUsername());
+        model.addAttribute("role", user.getAuthorities());
         return "user";
     }
 
     @GetMapping("/duration")
     public String duration(Model model, Authentication authentication) {
-        MyUserDetails myUserDetails = getMyUserDetails(authentication);
+        Client myUserDetails = getMyUserDetails(authentication);
         long dayDuration = workLogService.getDuration(myUserDetails.getEmployee(), LocalDate.now());
         model.addAttribute("DayWorkedAlready", workLogService.getStringFormatDuration(dayDuration));
         long timeWork = myUserDetails.getEmployee().getJobPosition().getWeekHours();
@@ -89,7 +85,7 @@ public class EmployeeController {
 
     @GetMapping("/allowance")
     public String salaryAllowance(Model model, Authentication authentication) {
-        MyUserDetails myUserDetails = getMyUserDetails(authentication);
+        Client myUserDetails = getMyUserDetails(authentication);
         long allowance = myUserDetails.getEmployee().getJobPosition().getWeekHours() * 3600 -
                 workLogReportService.timeWorkUp("week", LocalDate.now().with(DayOfWeek.MONDAY),
                         myUserDetails.getEmployee());
@@ -121,10 +117,10 @@ public class EmployeeController {
         return "all";
     }
 
-    private MyUserDetails getMyUserDetails(Authentication authentication) {
-        MyUserDetails myUserDetails = new MyUserDetails(
-                ((User) authentication.getPrincipal()).getUsername(),
-                ((User) authentication.getPrincipal()).getAuthorities()
+    private Client getMyUserDetails(Authentication authentication) {
+        Client myUserDetails = new Client(
+                ((org.springframework.security.core.userdetails.User) authentication.getPrincipal()).getUsername(),
+                ((org.springframework.security.core.userdetails.User) authentication.getPrincipal()).getAuthorities()
         );
         myUserDetails.setEmployee(employeeService.findByLogin(myUserDetails.getUsername()));
         return myUserDetails;

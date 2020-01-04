@@ -1,0 +1,13 @@
+html, body {
+    height: 100%;
+}
+
+.container {
+    background: #c7254e;
+    color: #c7254e;
+    height: 100%;
+}
+
+h2{
+    color:red;
+}

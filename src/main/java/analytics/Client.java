@@ -6,11 +6,11 @@ import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
 
-public class MyUserDetails extends User {
+public class Client extends org.springframework.security.core.userdetails.User {
 
     private Employee employee;
 
-    public MyUserDetails(String username, Collection<? extends GrantedAuthority> authorities) {
+    public Client(String username, Collection<? extends GrantedAuthority> authorities) {
         super(username, "", authorities);
     }
 

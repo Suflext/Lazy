@@ -27,8 +27,8 @@ public class WorkLogReportService {
         return new ArrayList<>(workLogReportRepo.findAll());
     }
 
-    public Long timeWorkUp(String type, LocalDate localDate, Employee employee){
-        int plus= 0;
+    public Long timeWorkUp(String type, LocalDate localDate, Employee employee) {
+        int plus = 0;
         if (type.equals("week")) plus = 7;
         else if (type.equals("month")) plus = localDate.lengthOfMonth();
         else plus = localDate.lengthOfYear();

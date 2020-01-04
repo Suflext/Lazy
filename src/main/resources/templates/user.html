@@ -1,15 +1,12 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/security/tags" >
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 
-    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title></title>
 
 </head>
@@ -17,34 +14,14 @@
 
 <div th:include="menu :: header"></div>
 
-<br>
+<br> <i> <b> Info [[${#httpServletRequest.remoteUser}]]: </b> </i> <br>
 
-<div sec:authorize="hasRole('ADMIN')">
-    This content is only shown to administrators.
-</div>
-
-<div sec:authorize="hasRole('USER')">
-    This content is only shown to users.
-</div>
-
-<br> <i> <b> Info Users: </b> </i> <br>
+<span th:if="${#httpServletRequest.isUserInRole('USER')}"> this is ROLE -> USER <br></span>
 
 Name : <span th:utext="${name}"></span> <br>
 User : <span th:utext="${user}"></span> <br>
 Role : <span th:utext="${role}"></span> <br>
 <br>
-
-<div class="container">
-
-    <div class="starter-template">
-        <form th:action="@{/log}" method="post">
-            <input type="submit" value="Sign Out"/>
-        </form>
-
-    </div>
-
-</div>
-
 
 </body>
 </html>
