@@ -15,7 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class Security extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private EmployeeService employeeService;
+    private EmployeeDetailService employeeDetailService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -23,8 +23,8 @@ public class Security extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/all").permitAll()
-                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/all", "/afterLogIn").permitAll()
+                .antMatchers("/**").hasAnyAuthority("USER", "ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -41,7 +41,7 @@ public class Security extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(AuthenticationManagerBuilder builder) throws Exception {
         builder.userDetailsService(
-                new EmployeeDetailService(employeeService.findAll()))
+                employeeDetailService)
                 .passwordEncoder(passwordEncoder());
     }
 

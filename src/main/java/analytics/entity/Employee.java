@@ -28,11 +28,11 @@ public class Employee {
 
     private String lastName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "DEPARTMENT", referencedColumnName = "id")
     private Department department;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "JOB_POSITION", referencedColumnName = "id")
     private JobPosition jobPosition;
 

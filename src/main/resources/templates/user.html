@@ -14,14 +14,8 @@
 
 <div th:include="menu :: header"></div>
 
-<br> <i> <b> Info [[${#httpServletRequest.remoteUser}]]: </b> </i> <br>
-
-<span th:if="${#httpServletRequest.isUserInRole('USER')}"> this is ROLE -> USER <br></span>
-
-Name : <span th:utext="${name}"></span> <br>
-User : <span th:utext="${user}"></span> <br>
-Role : <span th:utext="${role}"></span> <br>
-<br>
+<br> <br>
+<h2 align="center">Hello <span th:utext="${name}"></span> </h2>
 
 </body>
 </html>
