@@ -14,14 +14,28 @@
 
 <div th:include="menu :: header"></div>
 
-<table border="1">
-    <tr>
-        <th>login</th>
-    </tr>
-    <tr th:each="activeEmployee : ${activeEmployees}">
-        <td th:utext="${activeEmployee.employee.login}"></td>
-    </tr>
-</table>
+<br>
+<br>
+<br>
+
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Login</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="activeEmployee : ${activeEmployees}">
+            <td th:utext="${activeEmployee.employee.firstName}"></td>
+            <td th:utext="${activeEmployee.employee.lastName}"></td>
+            <td th:utext="${activeEmployee.employee.login}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 </body>
 </html>

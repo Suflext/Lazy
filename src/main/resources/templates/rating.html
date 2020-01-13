@@ -14,18 +14,28 @@
 
 <div th:include="menu :: header"></div>
 
-<table border="1">
-    <tr>
-        <th>firstName</th>
-        <th>lastName</th>
-        <th>login</th>
-    </tr>
-    <tr th:each="rating : ${ratings}">
-        <td th:utext="${rating.firstName}"></td>
-        <td th:utext="${rating.lastName}"></td>
-        <td th:utext="${rating.login}"></td>
-    </tr>
-</table>
+<br>
+<br>
+<br>
+
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Login</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="rating : ${ratings}">
+            <td th:utext="${rating.firstName}"></td>
+            <td th:utext="${rating.lastName}"></td>
+            <td th:utext="${rating.login}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 </body>
 </html>
