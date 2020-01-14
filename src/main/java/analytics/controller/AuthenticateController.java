@@ -1,7 +1,7 @@
 package analytics.controller;
 
-import analytics.config.EmployeeDetailService;
 import analytics.config.MyUserPrincipal;
+import analytics.entity.Employee;
 import analytics.service.WorkLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,21 +14,19 @@ public class AuthenticateController {
     @Autowired
     private WorkLogService workLogService;
 
-    @Autowired
-    private EmployeeDetailService employeeDetailService;
-
-    public MyUserPrincipal user;
-
     @GetMapping("/afterLogIn")
     public String logIn(Authentication authentication) {
-        user = (MyUserPrincipal) employeeDetailService.loadUserByUsername(authentication.getName());
-        workLogService.addStartDate(MyUserPrincipal.getEmployee());
+        workLogService.addStartDate(getEmployee(authentication));
         return "redirect:/user";
     }
 
+    private Employee getEmployee(Authentication authentication) {
+        return ((MyUserPrincipal) authentication.getPrincipal()).getEmployee();
+    }
+
     @GetMapping("/beforeLogOut")
-    public String logout() {
-        workLogService.addEndDate(MyUserPrincipal.getEmployee());
+    public String logout(Authentication authentication) {
+        workLogService.addEndDate(getEmployee(authentication));
         return "redirect:/logout";
     }
 

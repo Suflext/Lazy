@@ -1,8 +1,10 @@
 package analytics.controller;
 
 import analytics.config.MyUserPrincipal;
+import analytics.entity.Employee;
 import analytics.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,11 +28,11 @@ public class EmployeeController {
     private WorkLogReportService workLogReportService;
 
     @GetMapping(value = {"/", "/user"})
-    public String user(Model model) {
-        model.addAttribute("name", MyUserPrincipal.getEmployee().getFirstName());
-        model.addAttribute("employee", MyUserPrincipal.getEmployee());
-        model.addAttribute("user", MyUserPrincipal.getEmployee().getLogin());
-        model.addAttribute("role", MyUserPrincipal.getEmployee().getRole());
+    public String user(Model model, Authentication authentication) {
+        model.addAttribute("name", getEmployee(authentication).getFirstName());
+        model.addAttribute("employee", getEmployee(authentication));
+        model.addAttribute("user", getEmployee(authentication).getLogin());
+        model.addAttribute("role", getEmployee(authentication).getRole());
         return "user";
     }
 
@@ -42,5 +44,9 @@ public class EmployeeController {
         model.addAttribute("positions", positionService.findAll());
         model.addAttribute("departments", departmentService.findAll());
         return "all";
+    }
+
+    private Employee getEmployee(Authentication authentication) {
+        return ((MyUserPrincipal) authentication.getPrincipal()).getEmployee();
     }
 }

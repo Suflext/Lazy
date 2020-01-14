@@ -1,5 +1,6 @@
 package analytics.repository;
 
+import analytics.entity.Employee;
 import analytics.entity.WorkLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -29,4 +30,15 @@ public interface WorkLogRepository extends JpaRepository<WorkLog, Long> {
             nativeQuery = true)
     WorkLog findByDailyAndEmployeeAndOrder(long id);
 
+    @Query(value =
+            "(SELECT MIN(W.START_TIME) FROM WORK_LOG W WHERE W.DAILY = " +
+            "(CURRENT_DATE - DAYOFWEEK(CURRENT_DATE) DAY + ?2 DAY) AND W.EMPLOYEE = ?1)",
+    nativeQuery = true)
+    String findStartDayByDay(Employee employee, long day);
+
+    @Query(value =
+            "(SELECT MAX(COALESCE (W.END_TIME, LOCALTIME)) FROM WORK_LOG W WHERE W.DAILY = " +
+                    "(CURRENT_DATE - DAYOFWEEK(CURRENT_DATE) DAY + ?2 DAY) AND W.EMPLOYEE = ?1)",
+            nativeQuery = true)
+    String findEndDayByDay(Employee employee, long day);
 }

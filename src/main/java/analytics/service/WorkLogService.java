@@ -61,4 +61,11 @@ public class WorkLogService {
         return workLogRepo.findByEndTime();
     }
 
+    public String getStartDayByDay(Employee employee, long day) {
+        return workLogRepo.findStartDayByDay(employee, day);
+    }
+
+    public String getEndDayByDay(Employee employee, long day) {
+        return workLogRepo.findEndDayByDay(employee, day);
+    }
 }

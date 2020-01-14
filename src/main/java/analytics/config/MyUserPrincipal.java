@@ -12,13 +12,13 @@ import java.util.Set;
 
 public class MyUserPrincipal implements UserDetails {
 
-    private static Employee employee;
+    private Employee employee;
 
     public MyUserPrincipal(Employee employee) {
-        MyUserPrincipal.employee = employee;
+        this.employee = employee;
     }
 
-    public static Employee getEmployee() {
+    public Employee getEmployee() {
         return employee;
     }
 

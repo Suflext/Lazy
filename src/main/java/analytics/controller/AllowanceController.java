@@ -1,6 +1,7 @@
 package analytics.controller;
 
 import analytics.config.MyUserPrincipal;
+import analytics.entity.Employee;
 import analytics.service.WorkLogReportService;
 import analytics.service.WorkLogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,16 @@ public class AllowanceController {
 
     @GetMapping("/allowance")
     public String salaryAllowance(Model model, Authentication authentication) {
-        long allowance = MyUserPrincipal.getEmployee().getJobPosition().getWeekHours() * 3600 -
+        long allowance = getEmployee(authentication).getJobPosition().getWeekHours() * 3600 -
                 workLogReportService.timeWorkUp("week", LocalDate.now().with(DayOfWeek.MONDAY),
-                        MyUserPrincipal.getEmployee());
+                        getEmployee(authentication));
         model.addAttribute("SalaryAllowance", (allowance < 0) ? "Вы переработали : " +
                 workLogService.getStringFormatDuration(-allowance) : "Вы не доработали : " +
                 workLogService.getStringFormatDuration(allowance));
         return "allowance";
+    }
+
+    private Employee getEmployee(Authentication authentication) {
+        return ((MyUserPrincipal) authentication.getPrincipal()).getEmployee();
     }
 }
