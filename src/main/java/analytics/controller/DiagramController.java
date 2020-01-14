@@ -46,12 +46,6 @@ public class DiagramController {
             }
         }
 
-        Calendar calendar = new GregorianCalendar();
-        Date trialTime = new Date();
-        calendar.setTime(trialTime);
-        System.out.println("Week number:" +
-                calendar.get(Calendar.DAY_OF_WEEK));
-
         model.addAttribute("AtWork", min);
         model.addAttribute("LeftWork", max);
         return "diagram";
