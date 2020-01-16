@@ -19,7 +19,7 @@ public class EmployeeService {
         return new ArrayList<>(employeeRepo.findAll());
     }
 
-    public ArrayList<Employee> getRatingEmployee() {
+    public ArrayList<String> getRatingEmployee() {
         return employeeRepo.findEmployeeBySumDuration();
     }
 }
