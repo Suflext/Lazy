@@ -20,4 +20,23 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "ON (E.ID = W.id) WHERE E.ID = W.id ORDER BY W.ort DESC",
             nativeQuery = true)
     ArrayList<String> findEmployeeBySumDuration();
+
+
+    @Query(value = "SELECT E.* FROM EMPLOYEE E " +
+            "WHERE NOT E.ID IN (SELECT L.EMPLOYEE FROM WORK_LOG L WHERE L.DAILY = CURRENT_DATE AND L.END_TIME is null)",
+            nativeQuery = true)
+    ArrayList<Employee> findNotWorkList();
+
+    @Query(value = "SELECT E.* FROM EMPLOYEE E " +
+            "WHERE NOT E.ID IN (SELECT L.EMPLOYEE FROM WORK_LOG L WHERE L.DAILY = CURRENT_DATE AND (L.END_TIME is null OR " +
+            "(L.START_TIME is not null AND L.END_TIME is not null)))",
+            nativeQuery = true)
+    ArrayList<Employee> findNotComeToday();
+
+@Query(value = "SELECT E.* FROM EMPLOYEE E " +
+        "WHERE E.ID IN (SELECT L.EMPLOYEE FROM WORK_LOG L WHERE L.DAILY = CURRENT_DATE AND (L.END_TIME is null OR " +
+        "(L.START_TIME is not null AND L.END_TIME is not null))) AND NOT E.ID IN (SELECT G.EMPLOYEE FROM WORK_LOG G " +
+        "WHERE G.DAILY = CURRENT_DATE AND G.START_TIME < '09:00:00.0000000')",
+        nativeQuery = true)
+    ArrayList<Employee> findLatecomers();
 }

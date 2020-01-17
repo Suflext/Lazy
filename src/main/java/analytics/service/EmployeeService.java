@@ -22,4 +22,16 @@ public class EmployeeService {
     public ArrayList<String> getRatingEmployee() {
         return employeeRepo.findEmployeeBySumDuration();
     }
+
+    public ArrayList<Employee> getNotWorkList() {
+        return employeeRepo.findNotWorkList();
+    }
+
+    public ArrayList<Employee> getNotComeToday() {
+        return employeeRepo.findNotComeToday();
+    }
+
+    public ArrayList<Employee> getLatecomers() {
+        return employeeRepo.findLatecomers();
+    }
 }

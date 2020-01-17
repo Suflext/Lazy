@@ -41,4 +41,5 @@ public interface WorkLogRepository extends JpaRepository<WorkLog, Long> {
                     "(CURRENT_DATE - DAYOFWEEK(CURRENT_DATE) DAY + ?2 DAY) AND W.EMPLOYEE = ?1)",
             nativeQuery = true)
     String findEndDayByDay(Employee employee, long day);
+
 }

@@ -14,6 +14,17 @@ import java.util.ArrayList;
 @Controller
 public class RatingController {
 
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    private class Format{
+        private long id;
+        private String firstName;
+        private String lastName;
+        private String login;
+        private String Time;
+    }
+
     @Autowired
     private EmployeeService employeeService;
 
@@ -44,13 +55,3 @@ public class RatingController {
     }
 }
 
-@Getter
-@Setter
-@NoArgsConstructor
-class Format{
-    private long id;
-    private String firstName;
-    private String lastName;
-    private String login;
-    private String Time;
-}

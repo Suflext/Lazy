@@ -27,6 +27,15 @@
                         <li><a th:href="@{/active}" th:if="${#httpServletRequest.getRemoteUser().startsWith('admin')}">
                             Active Employee
                         </a></li>
+                        <li><a th:href="@{/notWorkList}" th:if="${#httpServletRequest.getRemoteUser().startsWith('admin')}">
+                            Not Work List
+                        </a></li>
+                        <li><a th:href="@{/notComeToday}" th:if="${#httpServletRequest.getRemoteUser().startsWith('admin')}">
+                            Not Come Today
+                        </a></li>
+                        <li><a th:href="@{/latecomers}" th:if="${#httpServletRequest.getRemoteUser().startsWith('admin')}">
+                            Latecomers
+                        </a></li>
                     </ul>
                 </li>
             </ul>
