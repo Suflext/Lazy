@@ -32,14 +32,19 @@ public interface WorkLogRepository extends JpaRepository<WorkLog, Long> {
 
     @Query(value =
             "(SELECT MIN(W.START_TIME) FROM WORK_LOG W WHERE W.DAILY = " +
-            "(CURRENT_DATE - DAYOFWEEK(CURRENT_DATE) DAY + ?2 DAY) AND W.EMPLOYEE = ?1)",
+            "(CURRENT_DATE - DAYOFWEEK(CURRENT_DATE - 1 DAY) DAY + ?2 DAY) AND W.EMPLOYEE = ?1)",
     nativeQuery = true)
     String findStartDayByDay(Employee employee, long day);
 
     @Query(value =
             "(SELECT MAX(COALESCE (W.END_TIME, LOCALTIME)) FROM WORK_LOG W WHERE W.DAILY = " +
-                    "(CURRENT_DATE - DAYOFWEEK(CURRENT_DATE) DAY + ?2 DAY) AND W.EMPLOYEE = ?1)",
+                    "(CURRENT_DATE - DAYOFWEEK(CURRENT_DATE - 1 DAY) DAY + ?2 DAY) AND W.EMPLOYEE = ?1)",
             nativeQuery = true)
     String findEndDayByDay(Employee employee, long day);
 
+    @Query(value = "SELECT COUNT (*) FROM WORK_LOG G " +
+            "WHERE G.EMPLOYEE = ?3 AND G.DAILY BETWEEN ?1 AND ?2 " +
+            "AND G.START_TIME < '09:00:00.0000000' AND G.END_TIME > '09:00:00.0000000'",
+            nativeQuery = true)
+    Long findCountEarlyComers(LocalDate firstDate, LocalDate secondDate, Employee employee);
 }

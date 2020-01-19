@@ -1,9 +1,11 @@
 package analytics.repository;
 
 import analytics.entity.Employee;
+import analytics.entity.WorkLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
@@ -33,10 +35,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             nativeQuery = true)
     ArrayList<Employee> findNotComeToday();
 
-@Query(value = "SELECT E.* FROM EMPLOYEE E " +
-        "WHERE E.ID IN (SELECT L.EMPLOYEE FROM WORK_LOG L WHERE L.DAILY = CURRENT_DATE AND (L.END_TIME is null OR " +
-        "(L.START_TIME is not null AND L.END_TIME is not null))) AND NOT E.ID IN (SELECT G.EMPLOYEE FROM WORK_LOG G " +
-        "WHERE G.DAILY = CURRENT_DATE AND G.START_TIME < '09:00:00.0000000')",
-        nativeQuery = true)
-    ArrayList<Employee> findLatecomers();
+    @Query(value = "SELECT E.* FROM EMPLOYEE E " +
+            "WHERE E.ID IN (SELECT L.EMPLOYEE FROM WORK_LOG L WHERE L.DAILY = ?1 AND (L.END_TIME is null OR " +
+            "(L.START_TIME is not null AND L.END_TIME is not null))) AND NOT E.ID IN (SELECT G.EMPLOYEE FROM WORK_LOG G " +
+            "WHERE G.DAILY = ?1 AND G.START_TIME < '09:00:00.0000000')",
+            nativeQuery = true)
+    ArrayList<Employee> findLatecomers(LocalDate date);
+
 }

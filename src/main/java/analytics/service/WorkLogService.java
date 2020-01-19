@@ -68,4 +68,8 @@ public class WorkLogService {
     public String getEndDayByDay(Employee employee, long day) {
         return workLogRepo.findEndDayByDay(employee, day);
     }
+
+    public Long getCountEarlyComers(LocalDate startDate, LocalDate secondDate, Employee employee) {
+        return workLogRepo.findCountEarlyComers(startDate, secondDate, employee);
+    }
 }

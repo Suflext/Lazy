@@ -20,9 +20,10 @@ public class DiagramController {
 
     @GetMapping("/diagram")
     public String diagram(Model model, Authentication authentication) {
-        int numberDay = new GregorianCalendar().get(Calendar.DAY_OF_WEEK);
+        int numberDay = Calendar.DAY_OF_WEEK;
         ArrayList<Double> min = new ArrayList<>();
-        for (int i = 2; i <= numberDay; i++) {
+        for (int i = 0; i < numberDay; i++) {
+            if (i == 5) break;
             try {
                 min.add(Double.parseDouble(workLogService.getStartDayByDay(
                         ((MyUserPrincipal) authentication.getPrincipal())
@@ -34,7 +35,8 @@ public class DiagramController {
         }
 
         ArrayList<Double> max = new ArrayList<>();
-        for (int i = 2; i <= numberDay; i++) {
+        for (int i = 0; i < numberDay; i++) {
+            if (i == 5) break;
             try {
                 max.add(Double.parseDouble(workLogService.getEndDayByDay(
                         ((MyUserPrincipal) authentication.getPrincipal())

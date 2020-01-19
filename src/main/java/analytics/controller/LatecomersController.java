@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.time.LocalDate;
+
 @Controller
 public class LatecomersController {
 
@@ -14,7 +16,7 @@ public class LatecomersController {
 
     @GetMapping("/latecomers")
     public String rating(Model model) {
-        model.addAttribute("list", employeeService.getLatecomers());
+        model.addAttribute("list", employeeService.getLatecomers(LocalDate.now()));
         return "latecomers";
     }
 }

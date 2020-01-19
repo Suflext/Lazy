@@ -28,9 +28,9 @@ public class DurationController {
         model.addAttribute("DayWorkedAlready", workLogService.getStringFormatDuration(dayDuration));
         long timeWork = getEmployee(authentication).getJobPosition().getWeekHours();
         model.addAttribute("DayIdeaWork", workLogService.getStringFormatDuration(
-                timeWork * 3600 / 6));//6-daysWork
+                timeWork * 3600 / 5));//5-daysWork
         model.addAttribute("DayLeftWork", workLogService.getStringFormatDuration(
-                timeWork * 3600 / 6 - dayDuration));//6-daysWork
+                timeWork * 3600 / 5 - dayDuration));//5-daysWork
 
         long weekDuration = workLogReportService.timeWorkUp("week", LocalDate.now().with(DayOfWeek.MONDAY), getEmployee(authentication));
         model.addAttribute("WeekWorkedAlready", workLogService.getStringFormatDuration(
