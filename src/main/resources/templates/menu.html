@@ -37,6 +37,9 @@
                         <li><a th:href="@{/latecomers}" th:if="${#httpServletRequest.getRemoteUser().startsWith('admin')}">
                             Latecomers
                         </a></li>
+                        <li><a th:href="@{/sumAward}" th:if="${#httpServletRequest.getRemoteUser().startsWith('admin')}">
+                            Sum Award
+                        </a></li>
                     </ul>
                 </li>
             </ul>

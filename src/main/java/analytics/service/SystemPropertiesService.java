@@ -12,7 +12,6 @@ public class SystemPropertiesService {
         this.systemPropertyRepository = systemPropertyRepository;
     }
 
-
     public long getPercent(String percent) {
         return Long.parseLong(systemPropertyRepository.findValueByKey(percent));
     }
