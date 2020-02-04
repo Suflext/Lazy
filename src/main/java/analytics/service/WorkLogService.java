@@ -44,7 +44,7 @@ public class WorkLogService {
         return Duration.between(LocalTime.parse("00:00:00"), LocalTime.parse(workLogRepo.findAllByDailyAndEmployee(localDate, employee.getId()).split(" ")[1])).getSeconds();
     }
 
-    public String getStringFormatDuration(long duration) {
+    public String getStringFormatDuration(long duration) { //в отдельный класс
         long minutes = 0, hours = 0;
         if (duration >= 60) {
             minutes = duration / 60;
@@ -58,10 +58,15 @@ public class WorkLogService {
     }
 
     public ArrayList<WorkLog> getActiveEmployee() {
-        return workLogRepo.findByEndTime();
+        return workLogRepo.findEndTimeIsNull();
     }
 
     public String getStartDayByDay(Employee employee, long day) {
+        //вывести вме ворклоги пользователя между двумя днями
+        //java.stream
+        //comparator.compering
+
+
         return workLogRepo.findStartDayByDay(employee, day);
     }
 

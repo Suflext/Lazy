@@ -24,11 +24,11 @@ public interface WorkLogRepository extends JpaRepository<WorkLog, Long> {
     String findAllByDaily(LocalDate localDateStart, LocalDate localDateEnd, long id);
 
     @Query("SELECT w FROM WorkLog w WHERE w.endTime = null")
-    ArrayList<WorkLog> findByEndTime();
+    ArrayList<WorkLog> findEndTimeIsNull();
 
     @Query(value = "SELECT * FROM WORK_LOG W WHERE W.END_TIME IS NULL AND W.EMPLOYEE = ?1",
             nativeQuery = true)
-    WorkLog findByDailyAndEmployeeAndOrder(long id);
+    WorkLog findByDailyAndEmployeeAndOrder(long id);//rename
 
     @Query(value =
             "(SELECT MIN(W.START_TIME) FROM WORK_LOG W WHERE W.DAILY = " +

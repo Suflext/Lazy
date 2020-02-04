@@ -33,7 +33,7 @@ public class WorkLog {
     public static final Comparator<WorkLog> COMPARE_BY_ID = new Comparator<WorkLog>() {
         @Override
         public int compare(WorkLog lhs, WorkLog rhs) {
-            return (int)(lhs.getId() - rhs.getId());
+            return (int) (lhs.getId() - rhs.getId());
         }
     };
 

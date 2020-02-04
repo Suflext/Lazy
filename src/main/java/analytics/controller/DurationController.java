@@ -1,6 +1,6 @@
 package analytics.controller;
 
-import analytics.config.MyUserPrincipal;
+import analytics.config.EmployeePrincipal;
 import analytics.entity.Employee;
 import analytics.service.WorkLogReportService;
 import analytics.service.WorkLogService;
@@ -46,6 +46,6 @@ public class DurationController {
     }
 
     private Employee getEmployee(Authentication authentication) {
-        return ((MyUserPrincipal) authentication.getPrincipal()).getEmployee();
+        return ((EmployeePrincipal) authentication.getPrincipal()).getEmployee();
     }
 }

@@ -2,6 +2,7 @@ package analytics.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -16,7 +17,7 @@ public class WorkLogReport {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private LocalDate START_DATE;
+    private LocalDate startDate;
 
     private Long duration;
 
@@ -26,6 +27,6 @@ public class WorkLogReport {
     @JoinColumn(name = "EMPLOYEE", referencedColumnName = "id")
     private Employee employee;
 
-    enum ReportPeriodType {week, month, year}
+    public enum ReportPeriodType {week, month, year}
 
 }

@@ -1,6 +1,6 @@
 package analytics.controller;
 
-import analytics.config.MyUserPrincipal;
+import analytics.config.EmployeePrincipal;
 import analytics.entity.Employee;
 import analytics.service.WorkLogReportService;
 import analytics.service.WorkLogService;
@@ -23,17 +23,17 @@ public class AllowanceController {
     private WorkLogService workLogService;
 
     @GetMapping("/allowance")
-    public String salaryAllowance(Model model, Authentication authentication) {
+    public String allowance(Model model, Authentication authentication) {
         long allowance = getEmployee(authentication).getJobPosition().getWeekHours() * 3600 -
                 workLogReportService.timeWorkUp("week", LocalDate.now().with(DayOfWeek.MONDAY),
                         getEmployee(authentication));
-        model.addAttribute("SalaryAllowance", (allowance < 0) ? "Вы переработали : " +
-                workLogService.getStringFormatDuration(-allowance) : "Вы не доработали : " +
-                workLogService.getStringFormatDuration(allowance));
+        model.addAttribute("SalaryAllowance", (allowance < 0)
+                ? "Вы переработали : " + workLogService.getStringFormatDuration(-allowance)
+                : "Вы не доработали : " + workLogService.getStringFormatDuration(allowance));
         return "allowance";
     }
 
     private Employee getEmployee(Authentication authentication) {
-        return ((MyUserPrincipal) authentication.getPrincipal()).getEmployee();
+        return ((EmployeePrincipal) authentication.getPrincipal()).getEmployee();
     }
 }

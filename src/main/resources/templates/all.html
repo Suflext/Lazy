@@ -61,9 +61,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="positions : ${positions}">
-                <td th:utext="${positions.id}"></td>
-                <td th:utext="${positions.salary}"></td>
+            <tr th:each="position : ${positions}">
+                <td th:utext="${position.id}"></td>
+                <td th:utext="${position.salary}"></td>
             </tr>
             </tbody>
         </table>
@@ -128,6 +128,7 @@
         </tr>
         <tr>
             <th>id</th>
+            <th>employee</th>
             <th>startTime</th>
             <th>duration</th>
             <th>type</th>
@@ -136,7 +137,8 @@
         <tbody>
         <tr th:each="report : ${work_log_report}">
             <td th:utext="${report.id}"></td>
-            <td th:utext="${report.START_DATE}"></td>
+            <td th:utext="${report.employee.login}"></td>
+            <td th:utext="${report.startDate}"></td>
             <td th:utext="${report.duration}"></td>
             <td th:utext="${report.type}"></td>
         </tr>

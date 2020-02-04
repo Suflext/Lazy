@@ -1,6 +1,6 @@
 package analytics.controller;
 
-import analytics.config.MyUserPrincipal;
+import analytics.config.EmployeePrincipal;
 import analytics.entity.Employee;
 import analytics.service.WorkLogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class AuthenticateController {
     }
 
     private Employee getEmployee(Authentication authentication) {
-        return ((MyUserPrincipal) authentication.getPrincipal()).getEmployee();
+        return ((EmployeePrincipal) authentication.getPrincipal()).getEmployee();
     }
 
     @GetMapping("/beforeLogOut")

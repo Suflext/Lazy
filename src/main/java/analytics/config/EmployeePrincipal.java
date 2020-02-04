@@ -10,11 +10,16 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MyUserPrincipal implements UserDetails {
+//rename
+//open password?
+//ArrayLis -> List
+//Daily -> Date
+//
+public class EmployeePrincipal implements UserDetails {
 
     private Employee employee;
 
-    public MyUserPrincipal(Employee employee) {
+    public EmployeePrincipal(Employee employee) {
         this.employee = employee;
     }
 

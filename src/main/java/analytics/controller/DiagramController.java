@@ -1,6 +1,6 @@
 package analytics.controller;
 
-import analytics.config.MyUserPrincipal;
+import analytics.config.EmployeePrincipal;
 import analytics.service.WorkLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 @Controller
 public class DiagramController {
@@ -22,11 +21,11 @@ public class DiagramController {
     public String diagram(Model model, Authentication authentication) {
         int numberDay = Calendar.DAY_OF_WEEK;
         ArrayList<Double> min = new ArrayList<>();
-        for (int i = 0; i < numberDay; i++) {
+        for (int i = 0; i < numberDay; i++) { //
             if (i == 5) break;
             try {
                 min.add(Double.parseDouble(workLogService.getStartDayByDay(
-                        ((MyUserPrincipal) authentication.getPrincipal())
+                        ((EmployeePrincipal) authentication.getPrincipal())
                                 .getEmployee(), i).replace(':', '.').substring(0, 5)));
 
             } catch (Exception ignored) {
@@ -39,7 +38,7 @@ public class DiagramController {
             if (i == 5) break;
             try {
                 max.add(Double.parseDouble(workLogService.getEndDayByDay(
-                        ((MyUserPrincipal) authentication.getPrincipal())
+                        ((EmployeePrincipal) authentication.getPrincipal())
                                 .getEmployee(), i).replace(':', '.').substring(0, 5)));
 
             } catch (Exception ignored) {

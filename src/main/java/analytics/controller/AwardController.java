@@ -1,6 +1,6 @@
 package analytics.controller;
 
-import analytics.config.MyUserPrincipal;
+import analytics.config.EmployeePrincipal;
 import analytics.entity.JobPosition;
 import analytics.service.JobPositionService;
 import analytics.service.SystemPropertiesService;
@@ -21,10 +21,11 @@ public class AwardController {
 
     @GetMapping(value = "/award")
     public String award(Model model, Authentication authentication) {
-        JobPosition jobPosition = jobPositionService.getJobPositionByEmployee(((MyUserPrincipal)authentication.getPrincipal()).getEmployee());
+        JobPosition jobPosition = jobPositionService.getJobPositionByEmployee(((EmployeePrincipal) authentication.getPrincipal()).getEmployee());
+        //просто черз вызов employee.getJobPosition
         long salary = jobPosition.getSalary();
-        float percent = (float)systemPropertiesService.getPercent("bonus") / 100;
-        model.addAttribute("award", (long)(salary *  percent));
+        float percent = (float) systemPropertiesService.getPercent("bonus") / 100;
+        model.addAttribute("award", (long) (salary * percent));
         return "award";
     }
 }
