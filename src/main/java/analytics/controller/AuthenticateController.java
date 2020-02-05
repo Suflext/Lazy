@@ -1,5 +1,6 @@
 package analytics.controller;
 
+import analytics.General;
 import analytics.config.EmployeePrincipal;
 import analytics.entity.Employee;
 import analytics.service.WorkLogService;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class AuthenticateController {
+public class AuthenticateController extends General {
 
     @Autowired
     private WorkLogService workLogService;
@@ -18,10 +19,6 @@ public class AuthenticateController {
     public String logIn(Authentication authentication) {
         workLogService.addStartDate(getEmployee(authentication));
         return "redirect:/user";
-    }
-
-    private Employee getEmployee(Authentication authentication) {
-        return ((EmployeePrincipal) authentication.getPrincipal()).getEmployee();
     }
 
     @GetMapping("/beforeLogOut")

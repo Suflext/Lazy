@@ -1,8 +1,8 @@
 package analytics.entity;
 
+import analytics.General.ReportPeriodType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -26,7 +26,5 @@ public class WorkLogReport {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "EMPLOYEE", referencedColumnName = "id")
     private Employee employee;
-
-    public enum ReportPeriodType {week, month, year}
 
 }

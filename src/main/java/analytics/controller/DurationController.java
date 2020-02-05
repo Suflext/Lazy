@@ -1,7 +1,6 @@
 package analytics.controller;
 
-import analytics.config.EmployeePrincipal;
-import analytics.entity.Employee;
+import analytics.General;
 import analytics.service.WorkLogReportService;
 import analytics.service.WorkLogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.DayOfWeek;
-import java.time.LocalDate;
+
+import static java.time.LocalDate.now;
 
 @Controller
-public class DurationController {
+public class DurationController extends General {
 
     @Autowired
     private WorkLogService workLogService;
@@ -24,28 +24,24 @@ public class DurationController {
 
     @GetMapping("/duration")
     public String duration(Model model, Authentication authentication) {
-        long dayDuration = workLogService.getDuration(getEmployee(authentication), LocalDate.now());
-        model.addAttribute("DayWorkedAlready", workLogService.getStringFormatDuration(dayDuration));
+        long dayDuration = workLogService.getDuration(getEmployee(authentication), now());
+        model.addAttribute("DayWorkedAlready", getStringFormatDuration(dayDuration));
         long timeWork = getEmployee(authentication).getJobPosition().getWeekHours();
-        model.addAttribute("DayIdeaWork", workLogService.getStringFormatDuration(
+        model.addAttribute("DayIdeaWork", getStringFormatDuration(
                 timeWork * 3600 / 5));//5-daysWork
-        model.addAttribute("DayLeftWork", workLogService.getStringFormatDuration(
+        model.addAttribute("DayLeftWork", getStringFormatDuration(
                 timeWork * 3600 / 5 - dayDuration));//5-daysWork
 
-        long weekDuration = workLogReportService.timeWorkUp("week", LocalDate.now().with(DayOfWeek.MONDAY), getEmployee(authentication));
-        model.addAttribute("WeekWorkedAlready", workLogService.getStringFormatDuration(
+        long weekDuration = workLogReportService.timeWorkUp("week", now().with(DayOfWeek.MONDAY), getEmployee(authentication));
+        model.addAttribute("WeekWorkedAlready", getStringFormatDuration(
                 weekDuration));
-        model.addAttribute("WeekIdeaWork", workLogService.getStringFormatDuration(
+        model.addAttribute("WeekIdeaWork", getStringFormatDuration(
                 timeWork * 3600));
-        model.addAttribute("WeekLeftWork", workLogService.getStringFormatDuration(
+        model.addAttribute("WeekLeftWork", getStringFormatDuration(
                 timeWork * 3600 - weekDuration));
 
-        model.addAttribute("MonthWorkedAlready", workLogService.getStringFormatDuration(
-                workLogReportService.timeWorkUp("month", LocalDate.now().withDayOfMonth(1), getEmployee(authentication))));
+        model.addAttribute("MonthWorkedAlready", getStringFormatDuration(
+                workLogReportService.timeWorkUp("month", now().withDayOfMonth(1), getEmployee(authentication))));
         return "duration";
-    }
-
-    private Employee getEmployee(Authentication authentication) {
-        return ((EmployeePrincipal) authentication.getPrincipal()).getEmployee();
     }
 }

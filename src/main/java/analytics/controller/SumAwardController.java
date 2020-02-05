@@ -3,7 +3,6 @@ package analytics.controller;
 import analytics.entity.Employee;
 import analytics.entity.JobPosition;
 import analytics.service.EmployeeService;
-import analytics.service.JobPositionService;
 import analytics.service.SystemPropertiesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,9 +15,6 @@ import java.util.ArrayList;
 public class SumAwardController {
 
     @Autowired
-    private JobPositionService jobPositionService;
-
-    @Autowired
     private SystemPropertiesService systemPropertiesService;
 
     @Autowired
@@ -29,13 +25,12 @@ public class SumAwardController {
         ArrayList<Employee> employees = employeeService.findAll();
         long award = 0;
         for (Employee employee : employees) {
-            JobPosition jobPosition = jobPositionService.getJobPositionByEmployee(employee);
+            JobPosition jobPosition = employee.getJobPosition();
             long salary = jobPosition.getSalary();
-            float percent = (float) systemPropertiesService.getPercent("bonus") / 100;
+            float percent = (float) systemPropertiesService.getKey("bonus") / 100;
             award += (long) (salary * percent);
         }
         model.addAttribute("award", award);
-
         return "sumAward";
     }
 }

@@ -1,14 +1,13 @@
 package analytics.repository;
 
-import analytics.entity.Employee;
 import analytics.entity.WorkLog;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public interface WorkLogRepository extends JpaRepository<WorkLog, Long> {
+public interface WorkLogRepository extends PagingAndSortingRepository<WorkLog, Long> {
 
     ArrayList<WorkLog> findAll();
 
@@ -32,13 +31,17 @@ public interface WorkLogRepository extends JpaRepository<WorkLog, Long> {
 
     @Query(value =
             "(SELECT MIN(W.START_TIME) FROM WORK_LOG W WHERE W.DAILY = " +
-            "(CURRENT_DATE - DAYOFWEEK(CURRENT_DATE - 1 DAY) DAY + ?2 DAY) AND W.EMPLOYEE = ?1)",
-    nativeQuery = true)
-    String findStartDayByDay(Employee employee, long day);
+                    "(CURRENT_DATE - DAYOFWEEK(CURRENT_DATE - 2 DAY) DAY + ?2 DAY) AND W.EMPLOYEE = ?1)",
+            nativeQuery = true)
+    String findStartDayByDay(Long employeeId, long day);
 
     @Query(value =
             "(SELECT MAX(COALESCE (W.END_TIME, LOCALTIME)) FROM WORK_LOG W WHERE W.DAILY = " +
-                    "(CURRENT_DATE - DAYOFWEEK(CURRENT_DATE - 1 DAY) DAY + ?2 DAY) AND W.EMPLOYEE = ?1)",
+                    "(CURRENT_DATE - DAYOFWEEK(CURRENT_DATE - 2 DAY) DAY + ?2 DAY) AND W.EMPLOYEE = ?1)",
             nativeQuery = true)
-    String findEndDayByDay(Employee employee, long day);
+    String findEndDayByDay(Long employeeId, long day);
+
+    @Query(value = "SELECT * FROM  WORK_LOG W WHERE W.EMPLOYEE = ?1 AND W.DAILY BETWEEN ?2 AND ?3",
+    nativeQuery = true)
+    ArrayList<WorkLog> findAllWorkLogBetweenStartDateAndEndDateByEmployeeId(Long employeeId, LocalDate start, LocalDate end);
 }

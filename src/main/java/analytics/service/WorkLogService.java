@@ -2,33 +2,36 @@ package analytics.service;
 
 import analytics.entity.Employee;
 import analytics.entity.WorkLog;
-import analytics.repository.EmployeeRepository;
 import analytics.repository.WorkLogRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+import static java.time.DayOfWeek.MONDAY;
+import static java.time.LocalDate.now;
+
 @Service
 public class WorkLogService {
 
     private WorkLogRepository workLogRepo;
-    private EmployeeRepository employeeRepo;
 
-    public WorkLogService(WorkLogRepository workLogRepo, EmployeeRepository employeeRepo) {
+    public WorkLogService(WorkLogRepository workLogRepo) {
         this.workLogRepo = workLogRepo;
-        this.employeeRepo = employeeRepo;
     }
 
-    public ArrayList<WorkLog> findAll() {
+    public List<WorkLog> findAll() {
         return new ArrayList<>(workLogRepo.findAll());
     }
 
     public void addStartDate(Employee employee) {
         WorkLog workLog = new WorkLog();
         workLog.setStartTime(LocalTime.now());
-        workLog.setDaily(LocalDate.now());
+        workLog.setDaily(now());
         workLog.setEmployee(employee);
         workLogRepo.save(workLog);
     }
@@ -44,33 +47,41 @@ public class WorkLogService {
         return Duration.between(LocalTime.parse("00:00:00"), LocalTime.parse(workLogRepo.findAllByDailyAndEmployee(localDate, employee.getId()).split(" ")[1])).getSeconds();
     }
 
-    public String getStringFormatDuration(long duration) { //в отдельный класс
-        long minutes = 0, hours = 0;
-        if (duration >= 60) {
-            minutes = duration / 60;
-            duration -= minutes * 60;
-        }
-        if (minutes >= 60) {
-            hours = minutes / 60;
-            minutes -= hours * 60;
-        }
-        return hours + " hours " + minutes + " minutes " + duration + " seconds";
-    }
-
-    public ArrayList<WorkLog> getActiveEmployee() {
+    public List<WorkLog> getActiveEmployee() {
         return workLogRepo.findEndTimeIsNull();
     }
 
-    public String getStartDayByDay(Employee employee, long day) {
-        //вывести вме ворклоги пользователя между двумя днями
-        //java.stream
-        //comparator.compering
+    public List<WorkLog> getListStartWorkWeekByEmployeeId(Long employeeId) {
+        LocalDate start = now().with(MONDAY), end = now();
+        ArrayList<WorkLog> workLogs = workLogRepo.findAllWorkLogBetweenStartDateAndEndDateByEmployeeId(employeeId, start, end);
+        List<WorkLog> min = new ArrayList<>();
+        do {
+            final LocalDate date = start;
+            min.add(workLogs
+                    .stream()
+                    .filter(workLog -> workLog.getDaily().equals(date))
+                    .min(Comparator.comparing(WorkLog::getStartTime))
+                    .orElseGet(WorkLog::new));
 
-
-        return workLogRepo.findStartDayByDay(employee, day);
+            start = start.plusDays(1);
+        } while (!start.isAfter(end));
+        return min;
     }
 
-    public String getEndDayByDay(Employee employee, long day) {
-        return workLogRepo.findEndDayByDay(employee, day);
+    public List<WorkLog> getListFinishWorkWeekByEmployeeId(Long employeeId) {
+        LocalDate start = now().with(MONDAY), end = now();
+        ArrayList<WorkLog> workLogs = workLogRepo.findAllWorkLogBetweenStartDateAndEndDateByEmployeeId(employeeId, start, end);
+        List<WorkLog> max = new ArrayList<>();
+        do {
+            final LocalDate date = start;
+            max.add(workLogs
+                    .stream()
+                    .filter(workLog -> workLog.getDaily().equals(date))
+                    .max(Comparator.comparing(WorkLog::getStartTime))
+                    .orElseGet(WorkLog::new));
+
+            start = start.plusDays(1);
+        } while (!start.isAfter(end));
+        return max;
     }
 }
