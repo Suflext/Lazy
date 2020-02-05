@@ -1,7 +1,6 @@
 package analytics.controller;
 
 import analytics.General;
-import analytics.entity.JobPosition;
 import analytics.service.SystemPropertiesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -17,8 +16,7 @@ public class AwardController extends General {
 
     @GetMapping(value = "/award")
     public String award(Model model, Authentication authentication) {
-        JobPosition jobPosition = getEmployee(authentication).getJobPosition();
-        long salary = jobPosition.getSalary();
+        long salary = getEmployee(authentication).getJobPosition().getSalary();
         float percent = (float) systemPropertiesService.getKey("bonus") / 100;
         model.addAttribute("award", (long) (salary * percent));
         return "award";

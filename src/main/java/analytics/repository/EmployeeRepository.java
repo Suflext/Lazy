@@ -1,46 +1,43 @@
 package analytics.repository;
 
 import analytics.entity.Employee;
-import analytics.entity.WorkLog;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
 
 public interface EmployeeRepository extends PagingAndSortingRepository<Employee, Long> {
 
     Employee findByLogin(String login);
 
-    ArrayList<Employee> findAll();
+    List<Employee> findAll();
 
     @Query(value = "SELECT E.FIRST_NAME, E.LAST_NAME, E.LOGIN, W.ort FROM EMPLOYEE E LEFT JOIN " +
             "(SELECT userId AS id, SUM (totalTime) AS ort FROM " +
             "(SELECT SUM (COALESCE (L.END_TIME, LOCALTIME) - L.START_TIME) AS totalTime, L.EMPLOYEE AS userId FROM " +
-            "WORK_LOG L WHERE L.DAILY BETWEEN (LAST_DAY(CURRENT_DATE - 1 MONTH) + 1 DAY) AND " +
+            "WORK_LOG L WHERE L.DAY BETWEEN (LAST_DAY(CURRENT_DATE - 1 MONTH) + 1 DAY) AND " +
             "LAST_DAY(CURRENT_DATE) GROUP BY userId) GROUP BY ID) AS W " +
             "ON (E.ID = W.id) WHERE E.ID = W.id ORDER BY W.ort DESC",
             nativeQuery = true)
-    ArrayList<String> findEmployeeBySumDuration();
+    List<String> findEmployeeRating();
 
 
     @Query(value = "SELECT E.* FROM EMPLOYEE E " +
-            "WHERE NOT E.ID IN (SELECT L.EMPLOYEE FROM WORK_LOG L WHERE L.DAILY = CURRENT_DATE AND L.END_TIME is null)",
+            "WHERE NOT E.ID IN (SELECT L.EMPLOYEE FROM WORK_LOG L WHERE L.DAY = CURRENT_DATE AND L.END_TIME is null)",
             nativeQuery = true)
-    ArrayList<Employee> findNotWorkList();
+    List<Employee> findNotWorkList();
 
     @Query(value = "SELECT E.* FROM EMPLOYEE E " +
-            "WHERE NOT E.ID IN (SELECT L.EMPLOYEE FROM WORK_LOG L WHERE L.DAILY = CURRENT_DATE AND (L.END_TIME is null OR " +
+            "WHERE NOT E.ID IN (SELECT L.EMPLOYEE FROM WORK_LOG L WHERE L.DAY = CURRENT_DATE AND (L.END_TIME is null OR " +
             "(L.START_TIME is not null AND L.END_TIME is not null)))",
             nativeQuery = true)
-    ArrayList<Employee> findNotComeToday();
+    List<Employee> findNotComeToday();
 
     @Query(value = "SELECT E.* FROM EMPLOYEE E " +
-            "WHERE E.ID IN (SELECT L.EMPLOYEE FROM WORK_LOG L WHERE L.DAILY = ?1 AND (L.END_TIME is null OR " +
+            "WHERE E.ID IN (SELECT L.EMPLOYEE FROM WORK_LOG L WHERE L.DAY = CURRENT_DATE AND (L.END_TIME is null OR " +
             "(L.START_TIME is not null AND L.END_TIME is not null))) AND NOT E.ID IN (SELECT G.EMPLOYEE FROM WORK_LOG G " +
-            "WHERE G.DAILY = ?1 AND G.START_TIME < '09:00:00.0000000')",
+            "WHERE G.DAY = CURRENT_DATE AND G.START_TIME < '09:00:00.0000000')",
             nativeQuery = true)
-    ArrayList<Employee> findLatecomers(LocalDate date);
+    List<Employee> findLatecomers();
 
 }

@@ -1,8 +1,6 @@
 package analytics.controller;
 
 import analytics.General;
-import analytics.config.EmployeePrincipal;
-import analytics.entity.Employee;
 import analytics.service.WorkLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -22,7 +20,7 @@ public class AuthenticateController extends General {
     }
 
     @GetMapping("/beforeLogOut")
-    public String logout(Authentication authentication) {
+    public String logOut(Authentication authentication) {
         workLogService.addEndDate(getEmployee(authentication));
         return "redirect:/logout";
     }

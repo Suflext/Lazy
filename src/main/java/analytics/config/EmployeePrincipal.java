@@ -10,20 +10,16 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-//rename
-//open password?
-//ArrayLis -> List
-//Daily -> Date
-//
 public class EmployeePrincipal implements UserDetails {
 
     private Employee employee;
 
-    public EmployeePrincipal(Employee employee) {
+    EmployeePrincipal(Employee employee) {
         this.employee = employee;
     }
 
     public Employee getEmployee() {
+        employee.setPassword(new BCryptPasswordEncoder().encode(employee.getPassword()));
         return employee;
     }
 

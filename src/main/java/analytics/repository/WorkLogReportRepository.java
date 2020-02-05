@@ -1,11 +1,10 @@
 package analytics.repository;
 
 import analytics.entity.WorkLogReport;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public interface WorkLogReportRepository extends JpaRepository<WorkLogReport, Long> {
-
-    ArrayList<WorkLogReport> findAll();
+public interface WorkLogReportRepository extends PagingAndSortingRepository<WorkLogReport, Long> {
+    List<WorkLogReport> findAll();
 }

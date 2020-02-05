@@ -1,15 +1,12 @@
 package analytics.controller;
 
 import analytics.entity.Employee;
-import analytics.entity.JobPosition;
 import analytics.service.EmployeeService;
 import analytics.service.SystemPropertiesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.ArrayList;
 
 @Controller
 public class SumAwardController {
@@ -21,16 +18,14 @@ public class SumAwardController {
     private EmployeeService employeeService;
 
     @GetMapping(value = "/sumAward")
-    public String award(Model model) {
-        ArrayList<Employee> employees = employeeService.findAll();
-        long award = 0;
-        for (Employee employee : employees) {
-            JobPosition jobPosition = employee.getJobPosition();
-            long salary = jobPosition.getSalary();
+    public String sumAward(Model model) {
+        long sumAward = 0;
+        for (Employee employee : employeeService.getAll()) {
+            long salary = employee.getJobPosition().getSalary();
             float percent = (float) systemPropertiesService.getKey("bonus") / 100;
-            award += (long) (salary * percent);
+            sumAward += (long) (salary * percent);
         }
-        model.addAttribute("award", award);
+        model.addAttribute("sumAward", sumAward);
         return "sumAward";
     }
 }

@@ -18,7 +18,7 @@ public class WorkLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate daily;
+    private LocalDate day;
 
     private LocalTime startTime;
 

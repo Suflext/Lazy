@@ -13,8 +13,8 @@ public class ActiveController {
     private WorkLogService workLogService;
 
     @GetMapping("/active")
-    public String getActiveWorkLog(Model model) {
-        model.addAttribute("activeEmployees", workLogService.getActiveEmployee());
+    public String employeeWhoWork(Model model) {
+        model.addAttribute("employeeWhoWork", workLogService.getEmployeeWhoWork());
         return "active";
     }
 }

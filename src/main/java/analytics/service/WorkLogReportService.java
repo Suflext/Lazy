@@ -11,12 +11,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import static analytics.General.ReportPeriodType.week;
+import static java.time.DayOfWeek.MONDAY;
 import static java.time.Duration.between;
 import static java.time.LocalDate.now;
 import static java.time.LocalTime.parse;
@@ -38,19 +37,19 @@ public class WorkLogReportService {
         this.employeeRepo = employeeRepo;
     }
 
-    public List<WorkLogReport> findAll() {
-        return new ArrayList<>(workLogReportRepo.findAll());
+    public List<WorkLogReport> getAll() {
+        return workLogReportRepo.findAll();
     }
 
-    public Long timeWorkUp(String type, LocalDate localDate, Employee employee) {
-        int plus = 0;
-        if (type.equals("week")) plus = 7;
-        else if (type.equals("month")) plus = localDate.lengthOfMonth();
-        return between(parse("00:00:00"), parse(workLogRepo.findAllByDaily(localDate, localDate.plusDays(plus), employee.getId()).split(" ")[1])).getSeconds();
+    public Long getAllTimeWorkBetweenTwoDatesByEmployeeId(LocalDate startDate, LocalDate endDate, Long employeeId) {
+        return between(parse("00:00:00"), parse(workLogRepo.findAllTimeWorkBetweenTwoDatesByEmployeeId(
+                startDate,
+                endDate,
+                employeeId).split(" ")[1])).getSeconds();
     }
 
     @Scheduled(cron = cron)
-    public void writerWeek() {
+    public void weeklyReport() {
         Pageable pageRequestOfEmployee = PageRequest.of(0, 1000);
         Page<Employee> pageOfEmployee;
         do {
@@ -61,8 +60,8 @@ public class WorkLogReportService {
     }
 
     private void recordingWorkLogReportByEmployee(Employee employee) {
-        LocalDate localDate = now().with(DayOfWeek.MONDAY);
-        String time = workLogRepo.findAllByDaily(localDate, localDate.plusDays(7), employee.getId());
+        LocalDate localDate = now().with(MONDAY);
+        String time = workLogRepo.findAllTimeWorkBetweenTwoDatesByEmployeeId(localDate, localDate.plusDays(7), employee.getId());
         if (time == null) return;
         WorkLogReport workLogReport = new WorkLogReport();
         workLogReport.setStartDate(localDate);
@@ -72,7 +71,4 @@ public class WorkLogReportService {
                 parse(time.split(" ")[1])).getSeconds());
         workLogReportRepo.save(workLogReport);
     }
-
-    //отсчитывать время без работы пользователя и например если пользователь не трогал клавиатуру в теч часа
-    //то можно выключать
 }

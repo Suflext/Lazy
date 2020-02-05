@@ -13,8 +13,8 @@ public class NotComeController {
     private EmployeeService employeeService;
 
     @GetMapping("/notComeToday")
-    public String rating(Model model) {
-        model.addAttribute("list", employeeService.getNotComeToday());
+    public String notComeToday(Model model) {
+        model.addAttribute("notComeToday", employeeService.getNotComeToday());
         return "notComeToday";
     }
 }

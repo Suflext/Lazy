@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.List;
+
 @Controller
 public class DiagramController extends General {
 
@@ -16,9 +18,10 @@ public class DiagramController extends General {
 
     @GetMapping("/diagram")
     public String diagram(Model model, Authentication authentication) {
-//        List<WorkLog> workLogs = workLogService.getListStartWorkWeekByEmployeeId(getEmployee(authentication).getId());
-//        model.addAttribute("AtWork", workLogs);
-//        model.addAttribute("LeftWork", max);
+        List<Double> list = getListStartAndFinishTimeWork(workLogService
+                .getListStartAndFinishWorkWeekByEmployeeId(getEmployee(authentication).getId()));
+        model.addAttribute("startWork", list.subList(0, list.size() / 2));
+        model.addAttribute("finishWork", list.subList(list.size() / 2, list.size()));
         return "diagram";
     }
 }

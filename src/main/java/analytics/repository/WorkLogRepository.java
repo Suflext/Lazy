@@ -5,43 +5,32 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
 
 public interface WorkLogRepository extends PagingAndSortingRepository<WorkLog, Long> {
 
-    ArrayList<WorkLog> findAll();
+    List<WorkLog> findAll();
 
     @Query(value = "SELECT SUM (COALESCE (W.END_TIME, LOCALTIME) - W.START_TIME)" +
-            " FROM WORK_LOG W WHERE W.DAILY = ?1 AND W.EMPLOYEE = ?2 ",
+            " FROM WORK_LOG W WHERE W.DAY = ?1 AND W.EMPLOYEE = ?2 ",
             nativeQuery = true)
-    String findAllByDailyAndEmployee(LocalDate localDate, long id);
+    String findTimeWorkByDayAndEmployeeId(LocalDate day, long employeeId);
 
 
     @Query(value = "SELECT SUM (COALESCE (W.END_TIME, LOCALTIME) - W.START_TIME)" +
-            " FROM WORK_LOG W WHERE W.DAILY >= ?1 AND W.DAILY <= ?2 AND W.EMPLOYEE = ?3",
+            " FROM WORK_LOG W WHERE W.DAY BETWEEN ?1 AND ?2 AND W.EMPLOYEE = ?3",
             nativeQuery = true)
-    String findAllByDaily(LocalDate localDateStart, LocalDate localDateEnd, long id);
+    String findAllTimeWorkBetweenTwoDatesByEmployeeId(LocalDate startDate, LocalDate endDate, long employeeId);
 
     @Query("SELECT w FROM WorkLog w WHERE w.endTime = null")
-    ArrayList<WorkLog> findEndTimeIsNull();
+    List<WorkLog> findEmployeeWhoWork();
 
     @Query(value = "SELECT * FROM WORK_LOG W WHERE W.END_TIME IS NULL AND W.EMPLOYEE = ?1",
             nativeQuery = true)
-    WorkLog findByDailyAndEmployeeAndOrder(long id);//rename
+    WorkLog findByEmployeeId(long employeeId);
 
-    @Query(value =
-            "(SELECT MIN(W.START_TIME) FROM WORK_LOG W WHERE W.DAILY = " +
-                    "(CURRENT_DATE - DAYOFWEEK(CURRENT_DATE - 2 DAY) DAY + ?2 DAY) AND W.EMPLOYEE = ?1)",
+    @Query(value = "SELECT * FROM  WORK_LOG W WHERE W.EMPLOYEE = ?1 AND W.DAY BETWEEN ?2 AND ?3",
             nativeQuery = true)
-    String findStartDayByDay(Long employeeId, long day);
-
-    @Query(value =
-            "(SELECT MAX(COALESCE (W.END_TIME, LOCALTIME)) FROM WORK_LOG W WHERE W.DAILY = " +
-                    "(CURRENT_DATE - DAYOFWEEK(CURRENT_DATE - 2 DAY) DAY + ?2 DAY) AND W.EMPLOYEE = ?1)",
-            nativeQuery = true)
-    String findEndDayByDay(Long employeeId, long day);
-
-    @Query(value = "SELECT * FROM  WORK_LOG W WHERE W.EMPLOYEE = ?1 AND W.DAILY BETWEEN ?2 AND ?3",
-    nativeQuery = true)
-    ArrayList<WorkLog> findAllWorkLogBetweenStartDateAndEndDateByEmployeeId(Long employeeId, LocalDate start, LocalDate end);
+    List<WorkLog> findAllWorkLogBetweenStartDateAndEndDateByEmployeeId(
+            Long employeeId, LocalDate startDate, LocalDate endDate);
 }

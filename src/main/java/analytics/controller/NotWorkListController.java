@@ -13,8 +13,8 @@ public class NotWorkListController {
     private EmployeeService employeeService;
 
     @GetMapping("/notWorkList")
-    public String rating(Model model) {
-        model.addAttribute("list", employeeService.getNotWorkList());
+    public String notWorkList(Model model) {
+        model.addAttribute("notWorkList", employeeService.getNotWorkList());
         return "notWorkList";
     }
 }

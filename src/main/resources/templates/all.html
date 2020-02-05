@@ -40,7 +40,7 @@
             <td th:utext="${employee.firstName}"></td>
             <td th:utext="${employee.lastName}"></td>
             <td th:utext="${employee.login}"></td>
-            <td th:utext="${employee.password}"></td>
+            <td th:utext="${employee.getPassword()}"></td>
             <td th:utext="${employee.jobPosition.id}"></td>
             <td th:utext="${employee.department.id}"></td>
         </tr>
@@ -111,7 +111,7 @@
         <tr th:each="worklog : ${worklogs}">
             <td th:utext="${worklog.id}"></td>
             <td th:utext="${worklog.employee.login}"></td>
-            <td th:utext="${worklog.daily}"></td>
+            <td th:utext="${worklog.day}"></td>
             <td th:utext="${worklog.startTime}"></td>
             <td th:utext="${worklog.duration}"></td>
             <td th:utext="${worklog.endTime}"></td>

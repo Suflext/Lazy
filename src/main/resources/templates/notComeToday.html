@@ -28,7 +28,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="employee : ${list}">
+        <tr th:each="employee : ${notComeToday}">
             <td th:utext="${employee.firstName}"></td>
             <td th:utext="${employee.lastName}"></td>
             <td th:utext="${employee.login}"></td>
