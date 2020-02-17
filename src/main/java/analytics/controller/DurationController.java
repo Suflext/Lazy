@@ -1,6 +1,5 @@
 package analytics.controller;
 
-import analytics.General;
 import analytics.entity.Employee;
 import analytics.service.WorkLogReportService;
 import analytics.service.WorkLogService;
@@ -19,7 +18,7 @@ import static java.util.Calendar.DAY_OF_MONTH;
 import static java.util.Calendar.getInstance;
 
 @Controller
-public class DurationController extends General {
+public class DurationController extends BasicController {
 
     @Autowired
     private WorkLogService workLogService;

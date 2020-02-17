@@ -1,6 +1,5 @@
 package analytics.controller;
 
-import analytics.General;
 import analytics.service.SystemPropertiesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -9,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class AwardController extends General {
+public class AwardController extends BasicController {
 
     @Autowired
     private SystemPropertiesService systemPropertiesService;

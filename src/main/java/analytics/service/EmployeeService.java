@@ -1,17 +1,16 @@
 package analytics.service;
 
-import analytics.General;
+import analytics.config.Decorator;
 import analytics.entity.Employee;
 import analytics.repository.EmployeeRepository;
-import lombok.Getter;
-import lombok.Setter;
+import analytics.service.model.EmployeeRating;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class EmployeeService extends General {
+public class EmployeeService extends Decorator {
 
     private EmployeeRepository employeeRepo;
 
@@ -19,31 +18,21 @@ public class EmployeeService extends General {
         this.employeeRepo = employeeRepo;
     }
 
-    @Getter
-    @Setter
-    private static class Format {
-        private long id;
-        private String firstName;
-        private String lastName;
-        private String login;
-        private String time;
-    }
-
     public List<Employee> getAll() {
         return employeeRepo.findAll();
     }
 
-    public List<Format> getRatingEmployee() {
+    public List<EmployeeRating> getRatingEmployee() {
         int i = 0;
-        List<Format> formats = new ArrayList<>();
+        List<EmployeeRating> formats = new ArrayList<>();
         for (String item : employeeRepo.findEmployeeRating()) {
-            Format format = new Format();
-            format.setId(++i);
-            format.setFirstName(item.split(",")[0]);
-            format.setLastName(item.split(",")[1]);
-            format.setLogin(item.split(",")[2]);
-            format.setTime(getTime(item.split(",")[3]));
-            formats.add(format);
+            EmployeeRating employeeRating = EmployeeRating.builder()
+                    .ratingId(++i)
+                    .firstName(item.split(",")[0])
+                    .lastName(item.split(",")[1])
+                    .login(item.split(",")[2])
+                    .time(convert(item.split(",")[3]).getSeconds()).build();
+            formats.add(employeeRating);
         }
         return formats;
     }

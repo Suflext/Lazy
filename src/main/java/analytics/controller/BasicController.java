@@ -1,4 +1,4 @@
-package analytics;
+package analytics.controller;
 
 import analytics.config.EmployeePrincipal;
 import analytics.entity.Employee;
@@ -11,17 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Double.parseDouble;
-import static java.lang.Long.parseLong;
 import static java.time.LocalTime.now;
 import static java.time.LocalTime.parse;
 
-public class General {
+public class BasicController {
 
     protected Employee getEmployee(Authentication authentication) {
         return ((EmployeePrincipal) authentication.getPrincipal()).getEmployee();
     }
-
-    public enum ReportPeriodType {week, month, year}
 
     protected String getStringFormatDuration(long duration) {
         long minutes = 0, hours = 0;
@@ -62,12 +59,5 @@ public class General {
         long hour = minutes / 60;
         minutes -= hour * 60;
         list.add(parseDouble(hour + "." + minutes));
-    }
-
-    protected String getTime(String item) {
-        long countDay = parseLong(item.split(" ")[0]);
-        String part = item.split(" ")[1].split(":")[0];
-        long hour = parseLong(part);
-        return (countDay * 24 + hour + item.substring(item.indexOf(part) + 2, item.indexOf(".")));
     }
 }

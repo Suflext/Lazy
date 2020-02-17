@@ -20,7 +20,7 @@ public interface WorkLogRepository extends PagingAndSortingRepository<WorkLog, L
     @Query(value = "SELECT SUM (COALESCE (W.END_TIME, LOCALTIME) - W.START_TIME)" +
             " FROM WORK_LOG W WHERE W.DAY BETWEEN ?1 AND ?2 AND W.EMPLOYEE = ?3",
             nativeQuery = true)
-    String findAllTimeWorkBetweenTwoDatesByEmployeeId(LocalDate startDate, LocalDate endDate, long employeeId);
+    String sumAllByEmployeeInPeriod(LocalDate startDate, LocalDate endDate, long employeeId);
 
     @Query("SELECT w FROM WorkLog w WHERE w.endTime = null")
     List<WorkLog> findEmployeeWhoWork();

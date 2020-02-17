@@ -5,6 +5,7 @@ import analytics.entity.WorkLogReport;
 import analytics.repository.EmployeeRepository;
 import analytics.repository.WorkLogReportRepository;
 import analytics.repository.WorkLogRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,41 +15,33 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 
-import static analytics.General.ReportPeriodType.week;
+import static analytics.entity.type.ReportPeriodType.reportPeriodType.WEEK;
 import static java.time.DayOfWeek.MONDAY;
-import static java.time.Duration.between;
 import static java.time.LocalDate.now;
-import static java.time.LocalTime.parse;
 
 @Service
+@RequiredArgsConstructor
 public class WorkLogReportService {
 
-    private WorkLogReportRepository workLogReportRepo;
+    private final WorkLogReportRepository workLogReportRepo;
 
-    private WorkLogRepository workLogRepo;
+    private final WorkLogRepository workLogRepo;
 
-    private EmployeeRepository employeeRepo;
+    private final WorkLogRepo workLogRe;
 
-    private final String cron = "*/10 * * * * *";
+    private final EmployeeRepository employeeRepo;
 
-    public WorkLogReportService(WorkLogReportRepository workLogReportRepo, WorkLogRepository workLogRepo, EmployeeRepository employeeRepo) {
-        this.workLogReportRepo = workLogReportRepo;
-        this.workLogRepo = workLogRepo;
-        this.employeeRepo = employeeRepo;
-    }
+    private static final String CRON = "*/10 * * * * *";
 
     public List<WorkLogReport> getAll() {
         return workLogReportRepo.findAll();
     }
 
     public Long getAllTimeWorkBetweenTwoDatesByEmployeeId(LocalDate startDate, LocalDate endDate, Long employeeId) {
-        return between(parse("00:00:00"), parse(workLogRepo.findAllTimeWorkBetweenTwoDatesByEmployeeId(
-                startDate,
-                endDate,
-                employeeId).split(" ")[1])).getSeconds();
+        return workLogRe.getAllTimeWorkBetweenTwoDatesByEmployeeId(startDate, endDate, employeeId).getSeconds();
     }
 
-    @Scheduled(cron = cron)
+    @Scheduled(cron = CRON)
     public void weeklyReport() {
         Pageable pageRequestOfEmployee = PageRequest.of(0, 1000);
         Page<Employee> pageOfEmployee;
@@ -61,14 +54,13 @@ public class WorkLogReportService {
 
     private void recordingWorkLogReportByEmployee(Employee employee) {
         LocalDate localDate = now().with(MONDAY);
-        String time = workLogRepo.findAllTimeWorkBetweenTwoDatesByEmployeeId(localDate, localDate.plusDays(7), employee.getId());
-        if (time == null) return;
+        long time = workLogRe.sumAllByEmployeeInPeriod(localDate, localDate.plusDays(7), employee.getId()).getSeconds();
+        if (time == 0) return;
         WorkLogReport workLogReport = new WorkLogReport();
         workLogReport.setStartDate(localDate);
         workLogReport.setEmployee(employee);
-        workLogReport.setType(week);
-        workLogReport.setDuration(between(parse("00:00:00"),
-                parse(time.split(" ")[1])).getSeconds());
+        workLogReport.setType(WEEK);
+        workLogReport.setDuration(time);
         workLogReportRepo.save(workLogReport);
     }
 }

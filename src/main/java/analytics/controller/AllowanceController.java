@@ -1,6 +1,5 @@
 package analytics.controller;
 
-import analytics.General;
 import analytics.service.WorkLogReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -13,7 +12,7 @@ import static java.time.DayOfWeek.SATURDAY;
 import static java.time.LocalDate.now;
 
 @Controller
-public class AllowanceController extends General {
+public class AllowanceController extends BasicController {
 
     @Autowired
     private WorkLogReportService workLogReportService;

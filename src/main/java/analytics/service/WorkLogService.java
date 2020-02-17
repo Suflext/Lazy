@@ -3,27 +3,27 @@ package analytics.service;
 import analytics.entity.Employee;
 import analytics.entity.WorkLog;
 import analytics.repository.WorkLogRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.time.DayOfWeek.MONDAY;
 import static java.time.Duration.between;
 import static java.time.LocalDate.now;
-import static java.time.LocalTime.*;
+import static java.util.stream.Collectors.groupingBy;
 
 @Service
+@RequiredArgsConstructor
 public class WorkLogService {
 
-    private WorkLogRepository workLogRepo;
+    private final WorkLogRepository workLogRepo;
 
-    public WorkLogService(WorkLogRepository workLogRepo) {
-        this.workLogRepo = workLogRepo;
-    }
+    private final WorkLogRepo workLogRe;
 
     public List<WorkLog> getAll() {
         return workLogRepo.findAll();
@@ -45,39 +45,28 @@ public class WorkLogService {
     }
 
     public Long getTimeWorkByDayAndEmployeeId(LocalDate day, Long employeeId) {
-        return between(parse("00:00:00"), parse(workLogRepo.findTimeWorkByDayAndEmployeeId(
-                day,
-                employeeId).split(" ")[1])).getSeconds();
+        return workLogRe.getTimeWorkByDayAndEmployeeId(day, employeeId).getSeconds();
     }
 
     public List<WorkLog> getEmployeeWhoWork() {
         return workLogRepo.findEmployeeWhoWork();
     }
 
-    public List<WorkLog> getListStartAndFinishWorkWeekByEmployeeId(Long employeeId) {
+    public Map<LocalDate, Long> getListStartAndFinishWorkWeekByEmployeeId(Long employeeId) {
         LocalDate start = now().with(MONDAY), end = now();
         List<WorkLog> workLogs = workLogRepo.findAllWorkLogBetweenStartDateAndEndDateByEmployeeId(employeeId, start, end);
-        List<WorkLog> startTimeWork = new ArrayList<>(), finishTimeWork = new ArrayList<>();
 
-        do {
-            final LocalDate date = start;
-            startTimeWork.add(workLogs
-                    .stream()
-                    .filter(workLog -> workLog.getDay().equals(date))
-                    .min(Comparator.comparing(WorkLog::getStartTime))
-                    .orElseGet(WorkLog::new));
-
-            finishTimeWork.add(workLogs
-                    .stream()
-                    .filter(workLog -> workLog.getDay().equals(date))
-                    .max(Comparator.comparing(WorkLog::getStartTime))
-                    .orElseGet(WorkLog::new));
-
-            start = start.plusDays(1);
-        } while (!start.isAfter(end));
-
-        List<WorkLog> list = new ArrayList<>(startTimeWork);
-        list.addAll(finishTimeWork);
-        return list;
+        Map<LocalDate, Long> longMap = new HashMap<>();
+        Map<LocalDate, List<WorkLog>> listMap = workLogs.stream().collect(groupingBy(WorkLog::getDay));
+        listMap.forEach((key, value) -> longMap.put(
+                key,
+                value.stream()
+                        .mapToLong(workLog ->
+                                between(workLog.getStartTime(),
+                                        workLog.getEndTime() == null
+                                                ? LocalTime.now()
+                                                : workLog.getEndTime())
+                                        .getSeconds()).sum()));
+        return longMap;
     }
 }

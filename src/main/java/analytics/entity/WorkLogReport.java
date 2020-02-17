@@ -1,6 +1,6 @@
 package analytics.entity;
 
-import analytics.General.ReportPeriodType;
+import analytics.entity.type.ReportPeriodType.reportPeriodType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,7 +21,7 @@ public class WorkLogReport {
 
     private Long duration;
 
-    private ReportPeriodType type;
+    private reportPeriodType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "EMPLOYEE", referencedColumnName = "id")
