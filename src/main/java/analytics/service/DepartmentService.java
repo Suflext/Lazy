@@ -1,5 +1,6 @@
 package analytics.service;
 
+import analytics.entity.Department;
 import analytics.repository.DepartmentRepository;
 import org.springframework.stereotype.Service;
 
@@ -8,13 +9,13 @@ import java.util.List;
 @Service
 public class DepartmentService {
 
-    private DepartmentRepository departmentRepo;
+    private final DepartmentRepository departmentRepo;
 
     public DepartmentService(DepartmentRepository departmentRepo) {
         this.departmentRepo = departmentRepo;
     }
 
-    public List getAll() {
+    public List<Department> getAll() {
         return departmentRepo.findAll();
     }
 

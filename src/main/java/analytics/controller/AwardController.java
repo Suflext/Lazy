@@ -18,6 +18,7 @@ public class AwardController extends BasicController {
         long salary = getEmployee(authentication).getJobPosition().getSalary();
         float percent = (float) systemPropertiesService.getKey("bonus") / 100;
         model.addAttribute("award", (long) (salary * percent));
+        model.addAttribute("user", getEmployee(authentication));
         return "award";
     }
 }

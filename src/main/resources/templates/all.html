@@ -28,6 +28,7 @@
             <th> id</th>
             <th> firstName</th>
             <th> lastName</th>
+            <th> role</th>
             <th> login</th>
             <th> password</th>
             <th> positions</th>
@@ -39,6 +40,7 @@
             <td th:utext="${employee.id}"></td>
             <td th:utext="${employee.firstName}"></td>
             <td th:utext="${employee.lastName}"></td>
+            <td th:utext="${employee.role}"></td>
             <td th:utext="${employee.login}"></td>
             <td th:utext="${employee.getPassword()}"></td>
             <td th:utext="${employee.jobPosition.id}"></td>

@@ -28,6 +28,7 @@ public class AllowanceController extends BasicController {
         model.addAttribute("SalaryAllowance", (allowance < 0)
                 ? "Вы переработали : " + getStringFormatDuration(-allowance)
                 : "Вы не доработали : " + getStringFormatDuration(allowance));
+        model.addAttribute("user", getEmployee(authentication));
         return "allowance";
     }
 }

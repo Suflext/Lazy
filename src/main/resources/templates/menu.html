@@ -25,20 +25,23 @@
                         <li><a th:href="@{/rating}"> Rating </a></li>
                         <li><a th:href="@{/diagram}"> Diagram </a></li>
                         <li><a th:href="@{/award}"> Award </a></li>
-                        <li><a th:href="@{/active}" th:if="${#httpServletRequest.getRemoteUser().startsWith('admin')}">
+                        <li><a th:href="@{/active}" th:if="${user.role == 'ADMIN'}">
                             Active Employee
                         </a></li>
-                        <li><a th:href="@{/notWorkList}" th:if="${#httpServletRequest.getRemoteUser().startsWith('admin')}">
+                        <li><a th:href="@{/notWorkList}" th:if="${user.role == 'ADMIN'}">
                             Not Work List
                         </a></li>
-                        <li><a th:href="@{/notComeToday}" th:if="${#httpServletRequest.getRemoteUser().startsWith('admin')}">
+                        <li><a th:href="@{/notComeToday}" th:if="${user.role == 'ADMIN'}">
                             Not Come Today
                         </a></li>
-                        <li><a th:href="@{/latecomers}" th:if="${#httpServletRequest.getRemoteUser().startsWith('admin')}">
+                        <li><a th:href="@{/latecomers}" th:if="${user.role == 'ADMIN'}">
                             Latecomers
                         </a></li>
-                        <li><a th:href="@{/sumAward}" th:if="${#httpServletRequest.getRemoteUser().startsWith('admin')}">
+                        <li><a th:href="@{/sumAward}" th:if="${user.role == 'ADMIN'}">
                             Sum Award
+                        </a></li>
+                        <li><a th:href="@{/addEmployee}" th:if="${user.role == 'ADMIN'}">
+                            Add New Employee
                         </a></li>
                     </ul>
                 </li>

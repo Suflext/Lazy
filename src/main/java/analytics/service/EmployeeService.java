@@ -6,13 +6,15 @@ import analytics.repository.EmployeeRepository;
 import analytics.service.model.EmployeeRating;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class EmployeeService extends Decorator {
 
-    private EmployeeRepository employeeRepo;
+    private final EmployeeRepository employeeRepo;
 
     public EmployeeService(EmployeeRepository employeeRepo) {
         this.employeeRepo = employeeRepo;
@@ -47,5 +49,11 @@ public class EmployeeService extends Decorator {
 
     public List<Employee> getLatecomers() {
         return employeeRepo.findLatecomers();
+    }
+
+    public void add(Employee employee) {
+        long maxId = employeeRepo.findAll().size();
+        employee.setId(maxId + 1);
+        employeeRepo.save(employee);
     }
 }

@@ -3,9 +3,11 @@ package analytics.repository;
 import analytics.entity.Employee;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface EmployeeRepository extends PagingAndSortingRepository<Employee, Long> {
 
     Employee findByLogin(String login);

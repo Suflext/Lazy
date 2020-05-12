@@ -58,7 +58,7 @@ public class DurationController extends BasicController {
                         now.withDayOfMonth(1),
                         now.withDayOfMonth(getInstance().getActualMaximum(DAY_OF_MONTH)),
                         employee.getId())));
-
+        model.addAttribute("user", getEmployee(authentication));
         return "duration";
     }
 }

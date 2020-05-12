@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        .btn-colour-1 {
+            color: #fff;
+            background-color: #1b1e23;
+            border-color: #1b1e23;
+            border-radius: 4px;
+        }
+
+        .btn-colour-1:hover,
+        .btn-colour-1:active,
+        .btn-colour-1:focus,
+        .btn-colour-1.active {
+            background: #696969;
+            color: #ffffff;
+            border-color: #696969;
+        }
+
+        .btn-colour-2 {
+            color: #000000;
+            background-color: #cfcfcf;
+            border-color: #cfcfcf;
+            border-radius: 4px;
+        }
+
+        .btn-colour-2:hover,
+        .btn-colour-2:active,
+        .btn-colour-2:focus,
+        .btn-colour-2.active {
+            background: #cfcfcf;
+            color: #000000;
+            border-color: #cfcfcf;
+        }
+    </style>
+    <title>add</title>
+</head>
+<body>
+
+<div th:include="menu :: header"></div>
+
+<br>
+<br>
+<br>
+<div align="center"><h2>Add employee in the form below</h2>
+    <br>
+    <br>
+    <br>
+    <form style="width:300px" method="POST">
+        <div class="form-group">
+            <input type="text" class="form-control" name="firstName" placeholder="Name">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="lastName" placeholder="Surname">
+        </div>
+        <div class="form-group">
+            <select class="form-control" name="role">
+                <option>USER</option>
+                <option>ADMIN</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="login" placeholder="Login">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="password" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <select class="form-control" name="jobPosition">
+                    <option th:each="position : ${listPositions}"
+                            th:value="${position.id}"
+                            th:text="${position.salary}">
+                    </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <select class="form-control" name="department">
+                <option th:each="department : ${listDepartments}"
+                        th:value="${department.id}"
+                        th:text="${department.name}">
+                </option>
+            </select>
+        </div>
+        <br>
+        <button style="width:300px" class="btn btn-colour-1">Submit</button>
+    </form>
+    <br>
+    <a href="/user">
+        <button style="width:300px" class="btn btn-colour-2">&nbsp Back &nbsp</button>
+    </a>
+</div>
+
+
+</body>
+</html>

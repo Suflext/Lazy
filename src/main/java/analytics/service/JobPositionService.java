@@ -1,5 +1,6 @@
 package analytics.service;
 
+import analytics.entity.JobPosition;
 import analytics.repository.JobPositionRepository;
 import org.springframework.stereotype.Service;
 
@@ -8,13 +9,13 @@ import java.util.List;
 @Service
 public class JobPositionService {
 
-    private JobPositionRepository jobPositionRepository;
+    private final JobPositionRepository jobPositionRepository;
 
     public JobPositionService(JobPositionRepository jobPositionRepository) {
         this.jobPositionRepository = jobPositionRepository;
     }
 
-    public List getAll() {
+    public List<JobPosition> getAll() {
         return jobPositionRepository.findAll();
     }
 }
