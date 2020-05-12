@@ -56,12 +56,16 @@
         var series = [
             {
                 name: 'over work',
-                data: [arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], arr[7]],
+                data: [(8 * 3600 - arr[0]) < 0 ? arr[0] - 8 * 3600 : 0,
+                    (8 * 3600 - arr[1]) < 0 ? arr[1] - 8 * 3600 : 0,
+                    arr[2], arr[3], arr[4], arr[5], arr[6], arr[7]],
                 color: '#008A00'
             },
             {
                 name: 'unfinished',
-                data: [arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], arr[7]],
+                data: [(8 * 3600 - arr[0]) > 0 ? 8 * 3600 - arr[0] : 0,
+                    (8 * 3600 - arr[1]) > 0 ? 8 * 3600 - arr[1] : 0,
+                    arr[2], arr[3], arr[4], arr[5], arr[6], arr[7]],
                 color: '#CA3433'
             },
             {
