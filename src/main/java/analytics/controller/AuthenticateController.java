@@ -15,7 +15,7 @@ public class AuthenticateController extends BasicController {
     @GetMapping("/afterLogIn")
     public String logIn(Authentication authentication) {
         workLogService.addStartDate(getEmployee(authentication));
-        return "redirect:/user";
+        return "redirect:/index";
     }
 
     @GetMapping("/beforeLogOut")

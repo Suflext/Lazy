@@ -19,9 +19,8 @@ public class ActiveController extends BasicController{
             model.addAttribute("employeeWhoWork", workLogService.getEmployeeWhoWork());
             model.addAttribute("user", getEmployee(authentication));
             return "active";
-        }
-        else{
-            return "redirect:/user";
+        } else{
+            return "redirect:/index";
         }
     }
 }

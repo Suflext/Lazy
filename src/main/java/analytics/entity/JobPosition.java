@@ -16,6 +16,8 @@ public class JobPosition {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
+
     private Long weekHours;
 
     private LocalTime startTime;

@@ -31,7 +31,7 @@ public class DiagramController extends BasicController {
 
         System.out.println(list);
 
-        model.addAttribute("key",list);
+        model.addAttribute("key", list);
         model.addAttribute("work", reverse.values());
         model.addAttribute("user", getEmployee(authentication));
         return "diagram";

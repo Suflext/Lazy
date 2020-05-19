@@ -76,7 +76,7 @@
             <select class="form-control" name="jobPosition">
                     <option th:each="position : ${listPositions}"
                             th:value="${position.id}"
-                            th:text="${position.salary}">
+                            th:text="${position.name}">
                     </option>
             </select>
         </div>

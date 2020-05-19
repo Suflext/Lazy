@@ -1,18 +1,20 @@
 package analytics.service;
 
 import analytics.config.Decorator;
+import analytics.config.Security;
 import analytics.entity.Employee;
 import analytics.repository.EmployeeRepository;
 import analytics.service.model.EmployeeRating;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class EmployeeService extends Decorator {
+
+//    @Autowired
+//    PasswordEncoder passwordEncoder;
 
     private final EmployeeRepository employeeRepo;
 
@@ -54,6 +56,8 @@ public class EmployeeService extends Decorator {
     public void add(Employee employee) {
         long maxId = employeeRepo.findAll().size();
         employee.setId(maxId + 1);
+        employee.setPassword(new Security().passwordEncoder().encode(employee.getPassword()));
+
         employeeRepo.save(employee);
-    }
+     }
 }

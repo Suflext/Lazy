@@ -4,7 +4,6 @@ import analytics.entity.Employee;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -12,14 +11,13 @@ import java.util.Set;
 
 public class EmployeePrincipal implements UserDetails {
 
-    private Employee employee;
+    private final Employee employee;
 
     EmployeePrincipal(Employee employee) {
         this.employee = employee;
     }
 
     public Employee getEmployee() {
-        employee.setPassword(new BCryptPasswordEncoder().encode(employee.getPassword()));
         return employee;
     }
 
@@ -32,7 +30,7 @@ public class EmployeePrincipal implements UserDetails {
 
     @Override
     public String getPassword() {
-        return new BCryptPasswordEncoder().encode(employee.getPassword());
+        return employee.getPassword();
     }
 
     @Override

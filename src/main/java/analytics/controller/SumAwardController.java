@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class SumAwardController extends BasicController{
+public class SumAwardController extends BasicController {
 
     @Autowired
     private SystemPropertiesService systemPropertiesService;
@@ -20,14 +20,18 @@ public class SumAwardController extends BasicController{
 
     @GetMapping(value = "/sumAward")
     public String sumAward(Model model, Authentication authentication) {
-        long sumAward = 0;
-        for (Employee employee : employeeService.getAll()) {
-            long salary = employee.getJobPosition().getSalary();
-            float percent = (float) systemPropertiesService.getKey("bonus") / 100;
-            sumAward += (long) (salary * percent);
+        if (getEmployee(authentication).getRole().equals("ADMIN")) {
+            long sumAward = 0;
+            for (Employee employee : employeeService.getAll()) {
+                long salary = employee.getJobPosition().getSalary();
+                float percent = (float) systemPropertiesService.getKey("bonus") / 100;
+                sumAward += (long) (salary * percent);
+            }
+            model.addAttribute("sumAward", sumAward);
+            model.addAttribute("user", getEmployee(authentication));
+            return "sumAward";
+        } else {
+            return "redirect:/index";
         }
-        model.addAttribute("sumAward", sumAward);
-        model.addAttribute("user", getEmployee(authentication));
-        return "sumAward";
     }
 }

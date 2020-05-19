@@ -27,10 +27,14 @@ public class AddEmployeeController extends BasicController{
 
     @GetMapping("/addEmployee")
     public String addEmployee(Model model, Authentication authentication){
-        model.addAttribute("listPositions", jobPositionService.getAll());
-        model.addAttribute("listDepartments", departmentService.getAll());
-        model.addAttribute("user", getEmployee(authentication));
-        return "addEmployee";
+        if (getEmployee(authentication).getRole().equals("ADMIN")) {
+            model.addAttribute("listPositions", jobPositionService.getAll());
+            model.addAttribute("listDepartments", departmentService.getAll());
+            model.addAttribute("user", getEmployee(authentication));
+            return "addEmployee";
+        } else{
+            return "redirect:/index";
+        }
     }
 
     @PostMapping("/addEmployee")
