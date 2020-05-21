@@ -1,6 +1,7 @@
 package analytics.entity;
 
 import analytics.entity.type.ReportPeriodType.reportPeriodType;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

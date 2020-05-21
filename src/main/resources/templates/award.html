@@ -14,7 +14,6 @@
 
 <div th:include="menu :: header"></div>
 
-
 <br>
 <br>
 <br>
@@ -24,43 +23,30 @@
         <thead>
         <tr>
             <th>N</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Login</th>
-            <th>Time</th>
+            <th>Date</th>
+            <th>Type Day</th>
+            <th>Absence</th>
+            <th>Lateness</th>
+            <th>OverWork</th>
+            <th>Award</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="rating : ${ratings}">
-            <td th:utext="${rating.ratingId}"></td>
-            <td th:utext="${rating.firstName}"></td>
-            <td th:utext="${rating.lastName}"></td>
-            <td th:utext="${rating.login}"></td>
-            <td th:utext="${rating.time}"></td>
+        <tr th:each="row : ${table}">
+            <td th:utext="${row.id}"></td>
+            <td th:utext="${row.date}"></td>
+            <td th:utext="${row.typeDay}"></td>
+            <td th:utext="${row.absence}"></td>
+            <td th:utext="${row.lateness}"></td>
+            <td th:utext="${row.overwork}"></td>
+            <td th:utext="${row.award}"></td>
         </tr>
         </tbody>
     </table>
 </div>
 
-
-
-
-
 <br>
-
-<span th:utext="${award}"></span>
-
-<br><br><br><br>
-
-<span th:utext="${overwork}"></span>
-
-<br><br><br><br>
-
-<span th:utext="${absence}"></span>
-
-<br><br><br><br>
-
-<span th:utext="${lateness}"></span>
+<br>
 
 </body>
 </html>

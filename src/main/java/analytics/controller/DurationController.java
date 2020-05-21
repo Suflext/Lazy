@@ -9,13 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.time.LocalDate;
-
 import static java.time.DayOfWeek.MONDAY;
-import static java.time.DayOfWeek.SATURDAY;
 import static java.time.LocalDate.now;
-import static java.util.Calendar.DAY_OF_MONTH;
-import static java.util.Calendar.getInstance;
 
 @Controller
 public class DurationController extends BasicController {
@@ -28,9 +23,8 @@ public class DurationController extends BasicController {
 
     @GetMapping("/duration")
     public String duration(Model model, Authentication authentication) {
-        LocalDate now = now();
         Employee employee = getEmployee(authentication);
-        Long dayDuration = workLogService.getTimeWorkByDayAndEmployeeId(now, employee.getId());
+        Long dayDuration = workLogService.getTimeWorkByDayAndEmployeeId(now(), employee);
         model.addAttribute("DayWorkedAlready", getStringFormatDuration(dayDuration));
 
         Long weekHours = employee.getJobPosition().getWeekHours();
@@ -42,9 +36,9 @@ public class DurationController extends BasicController {
                         - dayDuration));
 
         Long weekDuration = workLogReportService.getAllTimeWorkBetweenTwoDatesByEmployeeId(
-                now.with(MONDAY),
-                now.with(SATURDAY),
-                employee.getId());
+                now().with(MONDAY),
+                now(),
+                employee);
 
         model.addAttribute("WeekWorkedAlready", getStringFormatDuration(
                 weekDuration));
@@ -55,9 +49,9 @@ public class DurationController extends BasicController {
 
         model.addAttribute("MonthWorkedAlready", getStringFormatDuration(
                 workLogReportService.getAllTimeWorkBetweenTwoDatesByEmployeeId(
-                        now.withDayOfMonth(1),
-                        now.withDayOfMonth(getInstance().getActualMaximum(DAY_OF_MONTH)),
-                        employee.getId())));
+                        now().withDayOfMonth(1),
+                        now(),
+                        employee)));
         model.addAttribute("user", getEmployee(authentication));
         return "duration";
     }

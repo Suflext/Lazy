@@ -1,6 +1,7 @@
 package analytics.service;
 
 import analytics.config.Decorator;
+import analytics.entity.Employee;
 import analytics.repository.WorkLogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,16 +15,17 @@ public class WorkLogRepo extends Decorator {
 
     private final WorkLogRepository workLogRepo;
 
-    public Duration getTimeWorkByDayAndEmployeeId(LocalDate day, Long employeeId) {
-        return getDuration(workLogRepo.findTimeWorkByDayAndEmployeeId(day, employeeId));
+    public Duration getTimeWorkByDayAndEmployeeId(LocalDate day, Employee employee) {
+        return getDuration(workLogRepo.findTimeWorkByDayAndEmployeeId(day, employee));
     }
 
-    public Duration getAllTimeWorkBetweenTwoDatesByEmployeeId(LocalDate startDate, LocalDate endDate, Long employeeId) {
-        return getDuration(workLogRepo.sumAllByEmployeeInPeriod(startDate, endDate, employeeId));
+    public Duration getAllTimeWorkBetweenTwoDatesByEmployeeId(LocalDate startDate, LocalDate endDate, Employee employee) {
+        System.out.println(workLogRepo.sumAllByEmployeeInPeriod(startDate, endDate, employee));
+        return getDuration(workLogRepo.sumAllByEmployeeInPeriod(startDate, endDate, employee));
     }
 
-    public Duration sumAllByEmployeeInPeriod(LocalDate localDate, LocalDate plusDays, long id) {
-        String time = workLogRepo.sumAllByEmployeeInPeriod(localDate, plusDays, id);
+    public Duration sumAllByEmployeeInPeriod(LocalDate localDate, LocalDate plusDays, Employee employee) {
+        String time = workLogRepo.sumAllByEmployeeInPeriod(localDate, plusDays, employee);
         if (time == null) return Duration.ZERO;
         else return getDuration(time);
     }

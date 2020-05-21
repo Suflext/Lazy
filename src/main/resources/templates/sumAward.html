@@ -15,8 +15,40 @@
 <div th:include="menu :: header"></div>
 
 <br>
+<br>
+<br>
 
-<span th:utext="${sumAward}"></span>
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>N</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Job Position</th>
+            <th>Department</th>
+            <th>Award</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${sumAwardList}">
+            <td th:utext="${item.id}"></td>
+            <td><a th:href="@{/request(id=${item.id})}"><span th:utext="${item.firstName}"></span></a></td>
+            <td th:utext="${item.lastName}"></td>
+            <td th:utext="${item.jobPosition}"></td>
+            <td th:utext="${item.department}"></td>
+            <td th:utext="${item.award}"></td>
+        </tr>
+        <tr>
+            <td colspan="5"></td>
+            <td><b><span th:utext="${sumAward}"></span></b></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<br>
+<br>
 
 </body>
 </html>

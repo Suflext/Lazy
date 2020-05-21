@@ -4,7 +4,6 @@ import analytics.entity.Employee;
 import analytics.entity.WorkLogReport;
 import analytics.repository.EmployeeRepository;
 import analytics.repository.WorkLogReportRepository;
-import analytics.repository.WorkLogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 
-import static analytics.entity.type.ReportPeriodType.reportPeriodType.WEEK;
+import static analytics.entity.type.ReportPeriodType.reportPeriodType.MONTH;
 import static java.time.DayOfWeek.MONDAY;
 import static java.time.LocalDate.now;
 
@@ -25,24 +24,22 @@ public class WorkLogReportService {
 
     private final WorkLogReportRepository workLogReportRepo;
 
-    private final WorkLogRepository workLogRepo;
-
     private final WorkLogRepo workLogRe;
 
     private final EmployeeRepository employeeRepo;
 
-    private static final String CRON = "*/10 * * * * *";
+    private static final String CRON = "0 0 0 1 * ?"; // At 0 am on the first day of every month
 
     public List<WorkLogReport> getAll() {
         return workLogReportRepo.findAll();
     }
 
-    public Long getAllTimeWorkBetweenTwoDatesByEmployeeId(LocalDate startDate, LocalDate endDate, Long employeeId) {
-        return workLogRe.getAllTimeWorkBetweenTwoDatesByEmployeeId(startDate, endDate, employeeId).getSeconds();
+    public Long getAllTimeWorkBetweenTwoDatesByEmployeeId(LocalDate startDate, LocalDate endDate, Employee employee) {
+        return workLogRe.getAllTimeWorkBetweenTwoDatesByEmployeeId(startDate, endDate, employee).getSeconds();
     }
 
     @Scheduled(cron = CRON)
-    public void weeklyReport() {
+    public void monthlyReport() {
         Pageable pageRequestOfEmployee = PageRequest.of(0, 1000);
         Page<Employee> pageOfEmployee;
         do {
@@ -54,12 +51,12 @@ public class WorkLogReportService {
 
     private void recordingWorkLogReportByEmployee(Employee employee) {
         LocalDate localDate = now().with(MONDAY);
-        long time = workLogRe.sumAllByEmployeeInPeriod(localDate, localDate.plusDays(7), employee.getId()).getSeconds();
+        long time = workLogRe.sumAllByEmployeeInPeriod(localDate, localDate.plusDays(7), employee).getSeconds();
         if (time == 0) return;
         WorkLogReport workLogReport = new WorkLogReport();
         workLogReport.setStartDate(localDate);
         workLogReport.setEmployee(employee);
-        workLogReport.setType(WEEK);
+        workLogReport.setType(MONTH);
         workLogReport.setDuration(time);
         workLogReportRepo.save(workLogReport);
     }

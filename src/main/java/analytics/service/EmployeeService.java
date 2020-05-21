@@ -5,22 +5,17 @@ import analytics.config.Security;
 import analytics.entity.Employee;
 import analytics.repository.EmployeeRepository;
 import analytics.service.model.EmployeeRating;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class EmployeeService extends Decorator {
 
-//    @Autowired
-//    PasswordEncoder passwordEncoder;
-
     private final EmployeeRepository employeeRepo;
-
-    public EmployeeService(EmployeeRepository employeeRepo) {
-        this.employeeRepo = employeeRepo;
-    }
 
     public List<Employee> getAll() {
         return employeeRepo.findAll();
@@ -60,4 +55,8 @@ public class EmployeeService extends Decorator {
 
         employeeRepo.save(employee);
      }
+
+    public Employee findById(Long id) {
+        return employeeRepo.findById(id).get();
+    }
 }

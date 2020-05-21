@@ -1,16 +1,14 @@
 package analytics.entity;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "EMPLOYEE")
 @Data
-@ToString(of = {"id", "role", "login", "password", "firstName", "lastName"})
-
 @NoArgsConstructor
 public class Employee {
 
