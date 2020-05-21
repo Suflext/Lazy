@@ -6,13 +6,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class SystemPropertiesService {
 
-    private SystemPropertyRepository systemPropertyRepository;
+    private final SystemPropertyRepository systemPropertyRepository;
 
     public SystemPropertiesService(SystemPropertyRepository systemPropertyRepository) {
         this.systemPropertyRepository = systemPropertyRepository;
     }
 
-    public long getKey(String key) {
+    public long getValue(String key) {
         return Long.parseLong(systemPropertyRepository.findValueByKey(key));
     }
 }

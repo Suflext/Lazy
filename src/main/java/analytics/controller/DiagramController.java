@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import static java.time.DayOfWeek.MONDAY;
+import static java.time.LocalDate.now;
+
 @Controller
 @RequiredArgsConstructor
 public class DiagramController extends BasicController {
@@ -21,7 +24,9 @@ public class DiagramController extends BasicController {
 
     @GetMapping("/diagram")
     public String diagram(Model model, Authentication authentication) {
-        Map<LocalDate, Long> map = workLogService.getListStartAndFinishWorkWeekByEmployeeId(getEmployee(authentication).getId());
+        LocalDate start = now().with(MONDAY);
+        LocalDate end = now();
+        Map<LocalDate, Long> map = workLogService.getListBetweenTwoDateByEmployee(getEmployee(authentication), start, end);
         TreeMap<LocalDate, Long> reverse = new TreeMap<>(map);
 
         List<String> list = new ArrayList<>();

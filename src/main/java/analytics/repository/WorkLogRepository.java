@@ -31,6 +31,6 @@ public interface WorkLogRepository extends PagingAndSortingRepository<WorkLog, L
 
     @Query(value = "SELECT * FROM  WORK_LOG W WHERE W.EMPLOYEE = ?1 AND W.DAY BETWEEN ?2 AND ?3",
             nativeQuery = true)
-    List<WorkLog> findAllWorkLogBetweenStartDateAndEndDateByEmployeeId(
+    List<WorkLog> findAllBetweenTwoDateByEmployeeId(
             Long employeeId, LocalDate startDate, LocalDate endDate);
 }

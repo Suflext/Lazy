@@ -28,17 +28,17 @@ public class EmployeeService extends Decorator {
 
     public List<EmployeeRating> getRatingEmployee() {
         int i = 0;
-        List<EmployeeRating> formats = new ArrayList<>();
+        List<EmployeeRating> ratingList = new ArrayList<>();
         for (String item : employeeRepo.findEmployeeRating()) {
             EmployeeRating employeeRating = EmployeeRating.builder()
                     .ratingId(++i)
                     .firstName(item.split(",")[0])
                     .lastName(item.split(",")[1])
                     .login(item.split(",")[2])
-                    .time(convert(item.split(",")[3]).getSeconds()).build();
-            formats.add(employeeRating);
+                    .time(getDuration(item.split(",")[3]).getSeconds()).build();
+            ratingList.add(employeeRating);
         }
-        return formats;
+        return ratingList;
     }
 
     public List<Employee> getNotWorkList() {

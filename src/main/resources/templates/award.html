@@ -14,9 +14,53 @@
 
 <div th:include="menu :: header"></div>
 
+
+<br>
+<br>
+<br>
+
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>N</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Login</th>
+            <th>Time</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="rating : ${ratings}">
+            <td th:utext="${rating.ratingId}"></td>
+            <td th:utext="${rating.firstName}"></td>
+            <td th:utext="${rating.lastName}"></td>
+            <td th:utext="${rating.login}"></td>
+            <td th:utext="${rating.time}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
 <br>
 
 <span th:utext="${award}"></span>
+
+<br><br><br><br>
+
+<span th:utext="${overwork}"></span>
+
+<br><br><br><br>
+
+<span th:utext="${absence}"></span>
+
+<br><br><br><br>
+
+<span th:utext="${lateness}"></span>
 
 </body>
 </html>

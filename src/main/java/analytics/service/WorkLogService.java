@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.time.DayOfWeek.MONDAY;
 import static java.time.Duration.between;
 import static java.time.LocalDate.now;
 import static java.util.stream.Collectors.groupingBy;
@@ -48,13 +47,17 @@ public class WorkLogService {
         return workLogRe.getTimeWorkByDayAndEmployeeId(day, employeeId).getSeconds();
     }
 
+    public long getLatecomerById(Employee employee){
+        List<WorkLog> workLogs = workLogRepo.findAllBetweenTwoDateByEmployeeId(employee.getId(), now().withDayOfMonth(1), now());
+        return workLogs.stream().filter(workLog -> workLog.getStartTime().isAfter(employee.getJobPosition().getStartTime())).count();
+    }
+
     public List<WorkLog> getEmployeeWhoWork() {
         return workLogRepo.findEmployeeWhoWork();
     }
 
-    public Map<LocalDate, Long> getListStartAndFinishWorkWeekByEmployeeId(Long employeeId) {
-        LocalDate start = now().with(MONDAY), end = now();
-        List<WorkLog> workLogs = workLogRepo.findAllWorkLogBetweenStartDateAndEndDateByEmployeeId(employeeId, start, end);
+    public Map<LocalDate, Long> getListBetweenTwoDateByEmployee(Employee employee, LocalDate start, LocalDate end) {
+        List<WorkLog> workLogs = workLogRepo.findAllBetweenTwoDateByEmployeeId(employee.getId(), start, end);
 
         Map<LocalDate, Long> longMap = new HashMap<>();
         Map<LocalDate, List<WorkLog>> listMap = workLogs.stream().collect(groupingBy(WorkLog::getDay));

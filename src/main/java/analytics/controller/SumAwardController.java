@@ -24,7 +24,7 @@ public class SumAwardController extends BasicController {
             long sumAward = 0;
             for (Employee employee : employeeService.getAll()) {
                 long salary = employee.getJobPosition().getSalary();
-                float percent = (float) systemPropertiesService.getKey("bonus") / 100;
+                float percent = (float) systemPropertiesService.getValue("bonus") / 100;
                 sumAward += (long) (salary * percent);
             }
             model.addAttribute("sumAward", sumAward);
