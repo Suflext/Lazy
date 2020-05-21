@@ -21,5 +21,4 @@ public class DepartmentBonus {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Department department;
-
 }

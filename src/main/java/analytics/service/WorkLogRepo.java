@@ -20,7 +20,6 @@ public class WorkLogRepo extends Decorator {
     }
 
     public Duration getAllTimeWorkBetweenTwoDatesByEmployeeId(LocalDate startDate, LocalDate endDate, Employee employee) {
-        System.out.println(workLogRepo.sumAllByEmployeeInPeriod(startDate, endDate, employee));
         return getDuration(workLogRepo.sumAllByEmployeeInPeriod(startDate, endDate, employee));
     }
 

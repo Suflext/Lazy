@@ -59,4 +59,12 @@ public class EmployeeService extends Decorator {
     public Employee findById(Long id) {
         return employeeRepo.findById(id).get();
     }
+
+    public List<Employee> getAllByDepartmentId(Long id) {
+        return employeeRepo.findAllByDepartmentId(id);
+    }
+
+    public List<Employee> getAllByPositionId(Long id) {
+        return employeeRepo.findAllByJobPositionId(id);
+    }
 }

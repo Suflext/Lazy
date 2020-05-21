@@ -41,4 +41,12 @@ public interface EmployeeRepository extends PagingAndSortingRepository<Employee,
             "WHERE G.DAY = CURRENT_DATE AND G.START_TIME < '09:00:00.0000000')",
             nativeQuery = true)
     List<Employee> findLatecomers();
+
+    @Query(value = "SELECT E.* FROM EMPLOYEE E WHERE E.DEPARTMENT = ?1",
+            nativeQuery = true)
+    List<Employee> findAllByDepartmentId(Long id);
+
+    @Query(value = "SELECT E.* FROM EMPLOYEE E WHERE E.JOB_POSITION = ?1",
+            nativeQuery = true)
+    List<Employee> findAllByJobPositionId(Long id);
 }

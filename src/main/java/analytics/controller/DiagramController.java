@@ -34,8 +34,6 @@ public class DiagramController extends BasicController {
             list.add(localDate.getDayOfWeek().toString());
         });
 
-        System.out.println(list);
-
         model.addAttribute("key", list);
         model.addAttribute("work", reverse.values());
         model.addAttribute("user", getEmployee(authentication));
