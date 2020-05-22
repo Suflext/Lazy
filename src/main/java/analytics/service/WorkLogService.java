@@ -27,9 +27,7 @@ import static java.util.stream.Collectors.groupingBy;
 public class WorkLogService {
 
     private final WorkLogRepository workLogRepo;
-
     private final WorkLogRepo workLogRe;
-
     private final EmployeeRepository employeeRepo;
 
     public List<WorkLog> getAll() {
@@ -103,9 +101,9 @@ public class WorkLogService {
             long overwork = calculateOverwork(timeWorked, date);
 
             if (date.getDayOfWeek().equals(DayOfWeek.SATURDAY) || date.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
-                typeDay = "Weekend";
+                typeDay = "Выходной";
             } else {
-                typeDay = "Weekdays";
+                typeDay = "Рабочий день";
             }
 
             if (timeWorked.get(date) != null) absence = false;
@@ -124,8 +122,8 @@ public class WorkLogService {
                     .id(i)
                     .date(date)
                     .typeDay(typeDay)
-                    .absence(absence)
-                    .lateness(lateness)
+                    .absence(absence ? "Да" : "Нет")
+                    .lateness(lateness ? "Да" : "Нет")
                     .overwork(overwork)
                     .award(award).build());
         }

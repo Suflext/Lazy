@@ -11,8 +11,8 @@ public class viewAward {
     private final long id;
     private final LocalDate date;
     private final String typeDay;
-    private final Boolean absence;
-    private final Boolean lateness;
+    private final String absence;
+    private final String lateness;
     private final long overwork;
     private final long award;
 }

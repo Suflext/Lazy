@@ -15,41 +15,34 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <ul class="nav navbar-nav">
-                <li class="active"><a th:href="@{/index}">Home</a></li>
-                <li><a th:href="@{/duration}"> Duration </a></li>
-                <li><a th:href="@{/allowance}"> Allowance </a></li>
-                <li><a th:href="@{/rating}"> Rating </a></li>
-                <li><a th:href="@{/diagram}"> Diagram </a></li>
-                <li><a th:href="@{/award}"> Award </a></li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" th:if="${user.role == 'ADMIN'}">Actions<span
+                <li class="active"><a th:href="@{/index}"> Главная </a></li>
+                <li><a th:href="@{/duration}"> Статистика  </a></li>
+                <li><a th:href="@{/allowance}"> Норма выработки </a></li>
+                <li><a th:href="@{/rating}"> Рейтинг </a></li>
+                <li><a th:href="@{/diagram}"> Диаграмма </a></li>
+                <li><a th:href="@{/award}"> Заработная плата </a></li>
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" th:if="${user.role == 'ADMIN'}">Администрирование<span
                         class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a th:href="@{/all}" th:if="${user.role == 'ADMIN'}"> All Structure </a></li>
-                        <li><a th:href="@{/active}" th:if="${user.role == 'ADMIN'}"> Active Employee </a></li>
-                        <li><a th:href="@{/notWorkList}" th:if="${user.role == 'ADMIN'}"> Not Work List </a></li>
-                        <li><a th:href="@{/notComeToday}" th:if="${user.role == 'ADMIN'}"> Not Come Today </a></li>
-                        <li><a th:href="@{/latecomers}" th:if="${user.role == 'ADMIN'}"> Latecomers </a></li>
-                        <li><a th:href="@{/sumAward}" th:if="${user.role == 'ADMIN'}"> Sum Award </a></li>
-                        <li><a th:href="@{/addEmployee}" th:if="${user.role == 'ADMIN'}"> Add New Employee </a></li>
-                        <li><a th:href="@{/departments}" th:if="${user.role == 'ADMIN'}"> List Departments </a></li>
-                        <li><a th:href="@{/jobPositions}" th:if="${user.role == 'ADMIN'}"> List Job Positions </a></li>
-                        <li><a th:href="@{/weeklyReports}" th:if="${user.role == 'ADMIN'}"> Weekly Report By Departments </a></li>
+                        <li><a th:href="@{/all}" th:if="${user.role == 'ADMIN'}"> Все структуры </a></li>
+                        <li><a th:href="@{/active}" th:if="${user.role == 'ADMIN'}"> Сотрудники на рабочем месте </a></li>
+                        <li><a th:href="@{/notComeToday}" th:if="${user.role == 'ADMIN'}"> Прогулы </a></li>
+                        <li><a th:href="@{/latecomers}" th:if="${user.role == 'ADMIN'}"> Опаздавшие </a></li>
+                        <li><a th:href="@{/notWorkList}" th:if="${user.role == 'ADMIN'}"> Сотрудники не на рабочем месте </a></li>
+                        <li><a th:href="@{/sumAward}" th:if="${user.role == 'ADMIN'}"> Выплаты предприятия </a></li>
+                        <li><a th:href="@{/addEmployee}" th:if="${user.role == 'ADMIN'}"> Добовление нового сотрудника </a></li>
+                        <li><a th:href="@{/departments}" th:if="${user.role == 'ADMIN'}"> Список отделов </a></li>
+                        <li><a th:href="@{/jobPositions}" th:if="${user.role == 'ADMIN'}"> Список должностей </a></li>
+                        <li><a th:href="@{/weeklyReports}" th:if="${user.role == 'ADMIN'}"> Еженедельный отчет по отделам </a></li>
                     </ul>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a th:href="@{/beforeLogOut}"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+                <li><a th:href="@{/beforeLogOut}"><span class="glyphicon glyphicon-log-out"></span> Выход </a></li>
             </ul>
         </div>
     </nav>
 </div>
 
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <a th:href="@{/all}"> All Structure </a> <br>
-    <a th:href="@{/duration}"> Duration </a> <br>
-    <a th:href="@{/allowance}"> Allowance </a> <br>
-    <a th:href="@{/active}"> Active Employee </a> <br>
-    <a th:href="@{/rating}"> Rating </a> <br>
-</div>
 </body>
 </html>

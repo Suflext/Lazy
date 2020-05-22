@@ -28,9 +28,7 @@ import static java.util.stream.Collectors.groupingBy;
 public class WorkLogReportService {
 
     private final WorkLogReportRepository workLogReportRepo;
-
     private final WorkLogRepo workLogRe;
-
     private final EmployeeRepository employeeRepo;
 
     //    private static final String CRON = "0 0 0 1 * ?"; // At 0 am on the first day of every month
@@ -70,7 +68,6 @@ public class WorkLogReportService {
 
     public List<WeeklyReport> getAllByStartDate() {
         List<WorkLogReport> reports = workLogReportRepo.findAllByStartDate(now().with(MONDAY));
-
         Map<String, List<WorkLogReport>> listMap = reports.stream().collect(groupingBy(report -> report.getEmployee().getDepartment().getName()));
 
         List<WeeklyReport> list = new ArrayList<>();
